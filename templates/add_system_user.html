@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content-wrapper">
+
+  <div class="row">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Add New System User (නව පද්ධති පරිශීලක එක් කරන්න)</h4>
+
+          <form class="forms-sample">
+            
+            <div class="form-group">
+              <label for="fname">User First Name (පරිශීලක මුල් නම)</label>
+              <input type="text" class="form-control" id="fname" placeholder="User First Name (පරිශීලක මුල් නම)">
+            </div>
+
+            <div class="form-group">
+              <label for="lname">User Last Name (පරිශීලක අවසන් නම)</label>
+              <input type="text" class="form-control" id="lname" placeholder="User Last Name (පරිශීලක අවසන් නම)">
+            </div>
+
+            <div class="form-group">
+              <label for="uname">Username (පරිශීලක නාමය)</label>
+              <input type="text" class="form-control" id="uname" placeholder="Username (පරිශීලක නාමය)">
+            </div>
+
+            <div class="form-group">
+              <label for="type">User Type (පරිශීලක වර්ගය)</label>
+              <select class="form-control" id="type">
+                <option value="user">User (පරිශීලක)</option>
+                <option value="admin">Admin (පරිපාලක)</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="psw">Password (මුරපදය)</label>
+              <input type="text" class="form-control" id="psw" placeholder="Password (මුරපදය)">
+            </div>
+
+            <div class="form-group">
+              <label for="cpsw">Confirm Password (මුරපදය තහවුරු කරන්න)</label>
+              <input type="text" class="form-control" id="cpsw" placeholder="Confirm Password (මුරපදය තහවුරු කරන්න)">
+            </div>
+
+            <button type="button" id="btn" class="btn btn-primary mr-2">Add (ඇතුලත් කරන්න)</button>
+            <button class="btn btn-light">Cancel (ඉවත් වන්න)</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+  $(function () {
+    $('#btn').click(function () {
+
+      var fname = $('#fname').val();
+      var lname = $('#lname').val();
+      var uname = $('#uname').val();
+      var type = $('#type').val();
+      var psw = $('#psw').val();
+      var cpsw = $('#cpsw').val();
+
+      var title = "Add New System User (නව පද්ධති පරිශීලක එක් කරන්න)";
+
+      if (fname == "" || lname == "" || uname == "" || type == "" || psw == "" || cpsw == "") {
+        swal.fire(title, "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)", "warning");
+
+      } else if (psw != cpsw) {
+        swal.fire(title, "Password are not matched (මුරපද තහවුරු කරන්න!)", "warning");
+
+      } else {
+
+        var form_data = new FormData();
+        form_data.append('fname', fname);
+        form_data.append('lname', lname);
+        form_data.append('uname', uname);
+        form_data.append('type', type);
+        form_data.append('psw', psw);
+        form_data.append('cpsw', cpsw);
+
+        $.ajax({
+          url: "/add_new_system_user",
+          enctype: 'multipart/form-data',
+          data: form_data,
+          contentType: false,
+          cache: false,
+          processData: false,
+          type: 'POST',
+        })
+          .done(function (data) {
+            if (data.redirect) {
+              window.location.href = data.redirect;
+            }
+            else if (data.success) {
+              Swal.fire(title, data.success, "success");
+              document.getElementById("form_login_account").reset();
+            }
+            else if (data.error) {
+              Swal.fire(title, data.error, "warning");
+            }
+            else {
+              Swal.fire(title, "Some error occur! (යම් දෝෂයක් සිදු වේ!)", "warning");
+            }
+          });
+
+      }
+
+      event.preventDefault();
+    });
+  });
+
+</script>
+
+{% endblock %}

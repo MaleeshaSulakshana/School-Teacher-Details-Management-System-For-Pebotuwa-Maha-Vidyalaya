@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>School Teachers Details Management System</title>
+
+  <link rel="stylesheet" href="static/vendors/feather/feather.css">
+  <link rel="stylesheet" href="static/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="static/vendors/css/vendor.bundle.base.css">
+
+  <link rel="stylesheet" href="static/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="static/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" type="text/css" href="static/js/select.dataTables.min.css">
+  <link rel="stylesheet" href="static/css/vertical-layout-light/style.css">
+  <link rel="stylesheet" href="static/vendors/mdi/css/materialdesignicons.min.css">
+
+  <link rel="shortcut icon" href="static/images/logo.png" />
+
+  <script src="static/vendors/jquery/jquery-3.2.1.min.js"></script>
+  <script src="static/vendors/sweetalert/sweetalert2.js"></script>
+
+</head>
+<body>
+  <div class="container-scroller">
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <a class="navbar-brand brand-logo mr-5" href="/"><img src="static/images/logo.png" class="mr-2" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="/"><img src="static/images/logo.png" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <span class="icon-menu"></span>
+        </button>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="icon-menu"></span>
+        </button>
+      </div>
+    </nav>
+    
+    <div class="container-fluid page-body-wrapper">
+
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="icon-grid menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/add-teacher">
+              <i class="mdi mdi-account-plus menu-icon"></i>
+              <span class="menu-title">Add Teacher</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/system-users">
+              <i class="mdi mdi-account menu-icon text-danger"></i>
+              <span class="menu-title">System Users</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/add-system-users">
+              <i class="mdi mdi-account-plus menu-icon text-danger"></i>
+              <span class="menu-title">Add System User</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/change-psw">
+              <i class="mdi mdi-key menu-icon text-warning"></i>
+              <span class="menu-title">Change Password</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">
+              <i class="mdi mdi-logout menu-icon text-success"></i>
+              <b><span class="menu-title">Logout</span></b>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/shutdown">
+              <i class="mdi mdi-exit-to-app menu-icon text-danger"></i>
+              <b><span class="menu-title">System Shutdown</span></b>
+            </a>
+          </li>
+          
+        </ul>
+      </nav>
+
+      <div class="main-panel">
+  
+        {% block content %}{% endblock %}
+  
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2021. All rights reserved.</span>
+          </div>
+        </footer>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+
+  <script src="static/vendors/js/vendor.bundle.base.js"></script>
+  <script src="static/vendors/chart.js/Chart.min.js"></script>
+  <script src="static/vendors/datatables.net/jquery.dataTables.js"></script>
+  <script src="static/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+  <script src="static/js/dataTables.select.min.js"></script>
+
+  <script src="static/js/off-canvas.js"></script>
+  <script src="static/js/hoverable-collapse.js"></script>
+  <script src="static/js/template.js"></script>
+  <script src="static/js/todolist.js"></script>
+  <script src="static/js/dashboard.js"></script>
+  <script src="static/js/Chart.roundedBarCharts.js"></script>
+
+  <!-- <script>
+    window.onunload = () => fetch('/shutdown');
+  </script> -->
+
+</body>
+
+</html>
+

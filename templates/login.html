@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>School Teachers Details Management System | Login</title>
+  
+  <link rel="stylesheet" href="static/vendors/feather/feather.css">
+  <link rel="stylesheet" href="static/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="static/vendors/css/vendor.bundle.base.css">
+  
+  <link rel="stylesheet" href="static/css/vertical-layout-light/style.css">
+  <link rel="shortcut icon" href="static/images/logo.png" />
+
+</head>
+
+<body>
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center auth px-0">
+        <div class="row w-100 mx-0">
+          <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+              <div class="brand-logo">
+                <img src="static/images/logo.png" alt="logo">
+              </div>
+              <h4>Pebotuwa Maha Vidyalaya (ර/පෑබොටුව මහා විද්‍යාලය)</h4>
+              <h6 class="font-weight-light">Sign in to continue. (ඉදිරියට යාමට පුරන්න.)</h6>
+              <form class="pt-3">
+                <div class="form-group">
+                  <input type="email" class="form-control form-control-lg" id="username" placeholder="Username (පරිශීලක නාමය)">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control form-control-lg" id="psw" placeholder="Password (මුරපදය)">
+                </div>
+                <div class="mt-3">
+                  <button type="button" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" id="btn">SIGN IN</button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    
+  </div>
+  
+  <script src="static/vendors/js/vendor.bundle.base.js"></script>
+  <script src="static/js/off-canvas.js"></script>
+  <script src="static/js/hoverable-collapse.js"></script>
+  <script src="static/js/template.js"></script>
+  <script src="static/js/settings.js"></script>
+  <script src="static/js/todolist.js"></script>
+
+  <script src="static/vendors/jquery/jquery-3.2.1.min.js"></script>
+  <script src="static/vendors/sweetalert/sweetalert2.js"></script>
+
+  <script>
+    window.onunload = () => fetch('/shutdown');
+  </script>
+
+  <script>
+
+    $(function () {
+      $('#btn').click(function () {
+
+        var username = $('#username').val();
+        var psw = $('#psw').val();
+
+        var title = "Sign In (පුරන්න)";
+
+        if (username == "" || psw == "") {
+          swal.fire(title, "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)", "warning");
+
+        } else {
+
+          var form_data = new FormData();
+          form_data.append('username', username);
+          form_data.append('psw', psw);
+
+          $.ajax({
+            url: "/system_login",
+            enctype: 'multipart/form-data',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            type: 'POST',
+          })
+            .done(function (data) {
+              if (data.redirect) {
+                window.location.href = data.redirect;
+              }
+              else if (data.success) {
+                Swal.fire(title, data.success, "success");
+                document.getElementById("form_login_account").reset();
+              }
+              else if (data.error) {
+                Swal.fire(title, data.error, "warning");
+              }
+              else {
+                Swal.fire(title, "Some error occur! (යම් දෝෂයක් සිදු වේ!)", "warning");
+              }
+            });
+
+        }
+
+        event.preventDefault();
+      });
+    });
+
+  </script>
+
+</body>
+
+</html>

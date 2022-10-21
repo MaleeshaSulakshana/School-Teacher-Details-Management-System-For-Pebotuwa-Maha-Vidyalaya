@@ -10,11 +10,12 @@
           <h4 class="card-title">All System Users (සියලුම පද්ධති පරිශීලකයින්)</h4>
 
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search (සොයන්න)">
+            <input id="search" type="text" class="form-control" onkeyup="filter()" placeholder="Search (සොයන්න)">
           </div>
 
+          {% if details %}
           <div class="table-responsive">
-            <table class="table table-striped">
+            <table id="tbl" class="table table-striped">
               <thead>
                 <tr>
                   <th>First Name</th>
@@ -25,23 +26,84 @@
               </thead>
               <tbody>
 
+                {% for i in details %}
                 <tr>
-                  <td>Test</td>
-                  <td>User</td>
-                  <td>testUser</td>
+                  <td>{{ i[0] }}</td>
+                  <td>{{ i[1] }}</td>
+                  <td>{{ i[2] }}</td>
                   <td>
-                    <button type="button" class="btn btn-outline-info btn-fw">View (බලන්න)</button>
+                    <button class="btn btn-outline-danger btn-fw" onclick="remove('{{ i[2] }}')">Delete (මකන්න)</button>
                   </td>
                 </tr>
+                {% endfor %}
 
               </tbody>
             </table>
           </div>
+          {% endif %}
+
         </div>
       </div>
     </div>
     </div>
 
 </div>
+
+<script>
+  function filter() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input =document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tbl");
+    tr = table.getElementsByTagName("tr");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+  function remove(username) {
+    var form_data = new FormData();
+    form_data.append('username', username);
+
+    var title = "Remove System User (පද්ධති පරිශීලකයා ඉවත් කරන්න)";
+
+    $.ajax({
+      url: "/remove_system_user",
+      enctype: 'multipart/form-data',
+      data: form_data,
+      contentType: false,
+      cache: false,
+      processData: false,
+      type: 'POST',
+    })
+      .done(function (data) {
+        if (data.redirect) {
+          window.location.href = data.redirect;
+        }
+        else if (data.success) {
+          Swal.fire(title, data.success, "success");
+          window.location.reload();
+        }
+        else if (data.error) {
+          Swal.fire(title, data.error, "warning");
+        }
+        else {
+          Swal.fire(title, "Some error occur! (යම් දෝෂයක් සිදු වේ!)", "warning");
+        }
+      });
+  }
+
+</script>
 
 {% endblock %}

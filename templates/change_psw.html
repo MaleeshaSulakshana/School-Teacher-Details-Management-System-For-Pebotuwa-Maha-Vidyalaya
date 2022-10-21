@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{% if details %}
+
 <div class="content-wrapper">
 
   <div class="row">
@@ -9,31 +11,31 @@
         <div class="card-body">
           <h4 class="card-title">Change Password (මුරපදය වෙනස් කරන්න)</h4>
 
-          <form class="forms-sample">
+          <form class="forms-sample" id="form">
             
             <div class="form-group">
               <label for="fname">User First Name (පරිශීලක මුල් නම)</label>
-              <input type="text" class="form-control" id="fname" placeholder="User First Name (පරිශීලක මුල් නම)" disabled>
+              <input type="text" class="form-control" id="fname" placeholder="User First Name (පරිශීලක මුල් නම)" value="{{ details[0][0] }}" disabled>
             </div>
 
             <div class="form-group">
               <label for="lname">User Last Name (පරිශීලක අවසන් නම)</label>
-              <input type="text" class="form-control" id="lname" placeholder="User Last Name (පරිශීලක අවසන් නම)" disabled>
+              <input type="text" class="form-control" id="lname" placeholder="User Last Name (පරිශීලක අවසන් නම)" value="{{ details[0][1] }}" disabled>
             </div>
 
             <div class="form-group">
               <label for="uname">Username (පරිශීලක නාමය)</label>
-              <input type="text" class="form-control" id="uname" placeholder="Username (පරිශීලක නාමය)" disabled>
+              <input type="text" class="form-control" id="uname" placeholder="Username (පරිශීලක නාමය)" value="{{ details[0][2] }}" disabled>
             </div>
             
             <div class="form-group">
               <label for="psw">Password (මුරපදය)</label>
-              <input type="text" class="form-control" id="psw" placeholder="Password (මුරපදය)">
+              <input type="password" class="form-control" id="psw" placeholder="Password (මුරපදය)">
             </div>
 
             <div class="form-group">
               <label for="cpsw">Confirm Password (මුරපදය තහවුරු කරන්න)</label>
-              <input type="text" class="form-control" id="cpsw" placeholder="Confirm Password (මුරපදය තහවුරු කරන්න)">
+              <input type="password" class="form-control" id="cpsw" placeholder="Confirm Password (මුරපදය තහවුරු කරන්න)">
             </div>
 
             <button type="button" id="btn" class="btn btn-primary mr-2">Update (යාවත්කාලීන කරන්න)</button>
@@ -83,7 +85,7 @@
             }
             else if (data.success) {
               Swal.fire(title, data.success, "success");
-              document.getElementById("form_login_account").reset();
+              document.getElementById("form").reset();
             }
             else if (data.error) {
               Swal.fire(title, data.error, "warning");
@@ -100,5 +102,7 @@
   });
 
 </script>
+
+{% endif %}
 
 {% endblock %}

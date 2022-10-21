@@ -58,19 +58,21 @@
             </a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="/system-users">
-              <i class="mdi mdi-account menu-icon text-danger"></i>
-              <span class="menu-title">System Users</span>
-            </a>
-          </li>
+          {% if session['type'] == '1' %}
+            <li class="nav-item">
+              <a class="nav-link" href="/system-users">
+                <i class="mdi mdi-account menu-icon text-danger"></i>
+                <span class="menu-title">System Users</span>
+              </a>
+            </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="/add-system-users">
-              <i class="mdi mdi-account-plus menu-icon text-danger"></i>
-              <span class="menu-title">Add System User</span>
-            </a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/add-system-users">
+                <i class="mdi mdi-account-plus menu-icon text-danger"></i>
+                <span class="menu-title">Add System User</span>
+              </a>
+            </li>
+          {% endif %}
 
           <li class="nav-item">
             <a class="nav-link" href="/change-psw">

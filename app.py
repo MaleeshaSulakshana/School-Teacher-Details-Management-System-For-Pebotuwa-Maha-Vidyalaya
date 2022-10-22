@@ -14,21 +14,165 @@ app.secret_key = "School_Teachers_Details_Management_System"
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
+db_host = "localhost"
+db_port = "5432"
+db_name = "pebotuwa_maha_vidyalaya"
+db_user = "postgres"
+db_password = "postgres"
+
+
 def connector():
-    conn = ""
+    conn = None
 
     try:
         conn = psycopg2.connect(
-            host="localhost",
-            port="5432",
-            database="pebotuwa_maha_vidyalaya",
-            user="postgres",
-            password="postgres")
+            host=db_host,
+            port=db_port,
+            database=db_name,
+            user=db_user,
+            password=db_password
+        )
 
     except Exception as e:
-        print(str(e))
+        print(f"{str(e)}")
 
     return conn
+
+
+# 404 page
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error-404.html'), 404
+
+
+# 500 page
+@app.route('/error')
+def error_page():
+    return render_template('error-500.html'), 500
+
+
+# Route for create database
+@app.route('/create_db')
+def create_db():
+    if 'loggedId' in session:
+        return redirect('/index')
+
+    checkConn = connector()
+    if checkConn is not None:
+        return redirect('/index')
+
+    # connection establishment
+    conn = psycopg2.connect(
+        host=db_host,
+        port=db_port,
+        database="postgres",
+        user=db_user,
+        password=db_password
+    )
+
+    conn.autocommit = True
+
+    # Create database
+    cursor = conn.cursor()
+    create_database = '''
+            CREATE DATABASE pebotuwa_maha_vidyalaya
+            WITH
+            OWNER = postgres
+            ENCODING = 'UTF8'
+            CONNECTION LIMIT = -1
+            IS_TEMPLATE = False;
+        '''
+    cursor.execute(create_database)
+
+    # Create tables and insert data
+    queries = []
+
+    queries.append(''' DROP TABLE IF EXISTS public.system_users; ''')
+
+    queries.append('''
+             CREATE TABLE IF NOT EXISTS public.system_users
+             (
+                 first_name character varying(128) COLLATE pg_catalog."default" NOT NULL,
+                 last_name character varying(128) COLLATE pg_catalog."default" NOT NULL,
+                 username character varying(64) COLLATE pg_catalog."default" NOT NULL,
+                 user_type integer NOT NULL,
+                 password character varying(255) COLLATE pg_catalog."default" NOT NULL
+             )
+             TABLESPACE pg_default;
+         ''')
+
+    queries.append('''
+             ALTER TABLE IF EXISTS public.system_users
+                 OWNER to postgres;
+         ''')
+
+    queries.append(''' DROP TABLE IF EXISTS public.teachers; ''')
+
+    queries.append('''
+             CREATE TABLE IF NOT EXISTS public.teachers
+             (
+                 full_name character varying COLLATE pg_catalog."default" NOT NULL,
+                 full_name_initials character varying COLLATE pg_catalog."default" NOT NULL,
+                 dob character varying(16) COLLATE pg_catalog."default" NOT NULL,
+                 nic character varying(16) COLLATE pg_catalog."default" NOT NULL,
+                 address character varying(255) COLLATE pg_catalog."default" NOT NULL,
+                 distance character varying(255) COLLATE pg_catalog."default" NOT NULL,
+                 tp_land character varying(16) COLLATE pg_catalog."default",
+                 tp_mobile character varying(16) COLLATE pg_catalog."default",
+                 email character varying COLLATE pg_catalog."default",
+                 married_person_name character varying COLLATE pg_catalog."default",
+                 married_person_job character varying COLLATE pg_catalog."default",
+                 original_appointment_date character varying(16) COLLATE pg_catalog."default",
+                 grade_class character varying COLLATE pg_catalog."default",
+                 salary_implement_date character varying COLLATE pg_catalog."default",
+                 previous_serviced_schools character varying COLLATE pg_catalog."default",
+                 education_qualifications character varying COLLATE pg_catalog."default",
+                 id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+                 status integer NOT NULL,
+                 CONSTRAINT teachers_pkey PRIMARY KEY (id)
+             )
+             TABLESPACE pg_default;
+         ''')
+
+    queries.append('''
+             ALTER TABLE IF EXISTS public.teachers
+                 OWNER to postgres;
+         ''')
+
+    queries.append('''
+             INSERT INTO public.system_users(first_name, last_name, username, user_type, password)
+                 VALUES ('Admin', 'Admin', 'admin', '1', '21232f297a57a5a743894a0e4a801fc3');
+         ''')
+
+    try:
+        conn = connector()
+        with conn, conn.cursor() as cur:
+            for query in queries:
+                cur.execute(query)
+
+            conn.commit()
+
+    finally:
+        if conn:
+            conn.close()
+
+    return redirect('/index')
+
+
+# Route for login page
+@app.route('/login')
+def login():
+    if 'loggedId' in session:
+        return redirect('/index')
+
+    conn = connector()
+    if conn == None:
+        if conn:
+            conn.close()
+
+        return redirect('/error')
+
+    return render_template('login.html')
 
 
 # Route for index/home page
@@ -50,32 +194,24 @@ def index():
     cur.execute(query)
     system_users_count = cur.fetchall()[0][0]
 
-    conn = connector()
     query = "SELECT * FROM public.teachers WHERE status = 0"
     cur = conn.cursor()
     cur.execute(query)
     current_teachers = cur.fetchall()
     current_teachers_count = len(current_teachers)
 
-    conn = connector()
     query = "SELECT COUNT(*) FROM public.teachers WHERE status = 1"
     cur = conn.cursor()
     cur.execute(query)
     retired_teachers_count = cur.fetchall()[0][0]
 
+    if conn:
+        conn.close()
+
     counts = [current_teachers_count,
               retired_teachers_count, system_users_count]
 
     return render_template('index.html', today=today, counts=counts, teachers=current_teachers)
-
-
-# Route for login page
-@app.route('/login')
-def login():
-    if 'loggedId' in session:
-        return redirect('/index')
-
-    return render_template('login.html')
 
 
 # Route for deactivate teachers page
@@ -92,6 +228,9 @@ def deactivated_teacher():
     cur = conn.cursor()
     cur.execute(query)
     teachers = cur.fetchall()
+
+    if conn:
+        conn.close()
 
     return render_template('deactivated_teachers.html', teachers=teachers)
 
@@ -119,6 +258,9 @@ def view_teacher():
     cur.execute(query, values)
     details = cur.fetchall()
 
+    if conn:
+        conn.close()
+
     if len(details) > 0:
         return render_template('view_teacher_details.html', details=details[0])
 
@@ -138,6 +280,9 @@ def system_users():
     cur = conn.cursor()
     cur.execute(query, values)
     details = cur.fetchall()
+
+    if conn:
+        conn.close()
 
     return render_template('system_users.html', details=details)
 
@@ -163,6 +308,9 @@ def change_psw():
     cur = conn.cursor()
     cur.execute(query, values)
     details = cur.fetchall()
+
+    if conn:
+        conn.close()
 
     return render_template('change_psw.html', details=details)
 
@@ -209,6 +357,9 @@ def system_login():
                 cur.execute(query, values)
                 details = cur.fetchall()
 
+                if conn:
+                    conn.close()
+
                 if len(details) > 0:
                     session['loggedId'] = str(details[0][0])
                     session['type'] = str(details[0][1])
@@ -248,6 +399,9 @@ def psw_change():
                 cur.execute(query, values)
                 conn.commit()
                 row_count = cur.rowcount
+
+                if conn:
+                    conn.close()
 
                 if row_count > 0:
                     return jsonify({'success': "Password has been updated! (මුරපදය යාවත්කාලීන කර ඇත!)"})
@@ -297,7 +451,6 @@ def add_new_system_user():
                 psw = hashlib.md5(psw.encode()).hexdigest()
 
                 # Insert data
-                conn = connector()
                 row_count = 0
 
                 query = ''' INSERT INTO public.system_users (first_name, last_name, username, user_type, password) VALUES (%s, %s, %s, %s, %s) '''
@@ -307,6 +460,9 @@ def add_new_system_user():
                 cur.execute(query, values)
                 conn.commit()
                 row_count = cur.rowcount
+
+                if conn:
+                    conn.close()
 
                 if row_count > 0:
                     return jsonify({'success': "Account has been created! (ගිණුම නිර්මාණය කර ඇත!)"})
@@ -344,6 +500,9 @@ def remove_system_user():
                 cur.execute(query, values)
                 conn.commit()
                 row_count = cur.rowcount
+
+                if conn:
+                    conn.close()
 
                 if row_count > 0:
                     return jsonify({'success': "System user has been removed! (පද්ධති පරිශීලකයා ඉවත් කර ඇත!)"})
@@ -405,6 +564,9 @@ def add_new_teacher():
                 conn.commit()
                 row_count = cur.rowcount
 
+                if conn:
+                    conn.close()
+
                 if row_count > 0:
                     return jsonify({'success': "Teacher details has been inserted! (ගුරු විස්තර ඇතුලත් කර ඇත!)"})
 
@@ -465,6 +627,9 @@ def update_teacher():
                 conn.commit()
                 row_count = cur.rowcount
 
+                if conn:
+                    conn.close()
+
                 if row_count > 0:
                     return jsonify({'success': "Teacher details has been updated! (ගුරු විස්තර යාවත්කාලීන කර ඇත!)"})
 
@@ -505,6 +670,9 @@ def change_status():
                 conn.commit()
                 row_count = cur.rowcount
 
+                if conn:
+                    conn.close()
+
                 if row_count > 0:
                     return jsonify({'success': "Teacher status has been updated! (ගුරුවරයාගේ තත්ත්වය යාවත්කාලීන කර ඇත!)"})
 
@@ -517,9 +685,9 @@ def change_status():
 # Main
 if __name__ == '__main__':
 
-    host = "0.0.0.0"
+    host = "127.0.0.1"
     port = "5001"
-    # url = "http://127.0.0.1:{0}".format(port)
-    # threading.Timer(1.25, lambda: webbrowser.open(url)).start()
-    # app.run(port=port, threaded=True, debug=True)
-    app.run(host=host, port=port, threaded=True, debug=True)
+    url = "http://{0}:{1}".format(host, port)
+    threading.Timer(1.25, lambda: webbrowser.open(url)).start()
+    app.run(port=port, threaded=True, debug=False)
+    # app.run(host=host, port=port, threaded=True, debug=True)

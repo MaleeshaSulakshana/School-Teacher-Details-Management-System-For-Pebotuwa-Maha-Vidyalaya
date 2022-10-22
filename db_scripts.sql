@@ -7,55 +7,9 @@ CREATE DATABASE pebotuwa_maha_vidyalaya
     IS_TEMPLATE = False;
 
 
--- Create system user table
-CREATE TABLE public.system_users
-(
-    first_name character varying(128) NOT NULL,
-    last_name character varying(128) NOT NULL,
-    username character varying(64) NOT NULL,
-    user_type integer NOT NULL,
-    password character varying(255) NOT NULL
-);
-
-ALTER TABLE IF EXISTS public.system_users
-    OWNER to postgres;
-
-
--- Create Teacher table
-CREATE TABLE public.teachers
-(
-    full_name character varying NOT NULL,
-    full_name_initials character varying NOT NULL,
-    dob character varying(16) NOT NULL,
-    nic character varying(16) NOT NULL,
-    address character varying(255) NOT NULL,
-    distance character varying(255) NOT NULL,
-    tp_land character varying(16),
-    tp_mobile character varying(16),
-    email character varying,
-    married_person_name character varying,
-    married_person_job character varying,
-    original_appointment_date character varying(16),
-    grade_class character varying,
-    salary_implement_date character varying,
-    previous_serviced_schools character varying,
-    education_qualifications character varying,
-    id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    status integer NOT NULL,
-    PRIMARY KEY (id)
-);
-
-ALTER TABLE IF EXISTS public.teachers
-    OWNER to postgres;
-
-
--- ******************************************************************
 -- System users
--- ******************************************************************
 
--- Table: public.system_users
-
--- DROP TABLE IF EXISTS public.system_users;
+DROP TABLE IF EXISTS public.system_users;
 
 CREATE TABLE IF NOT EXISTS public.system_users
 (
@@ -72,13 +26,9 @@ ALTER TABLE IF EXISTS public.system_users
     OWNER to postgres;
 
 
--- ******************************************************************
 -- Teachers
--- ******************************************************************
 
--- Table: public.teachers
-
--- DROP TABLE IF EXISTS public.teachers;
+DROP TABLE IF EXISTS public.teachers;
 
 CREATE TABLE IF NOT EXISTS public.teachers
 (
@@ -107,3 +57,8 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.teachers
     OWNER to postgres;
+
+
+-- Insert admin system user
+INSERT INTO public.system_users(first_name, last_name, username, user_type, password)
+                VALUES ('Admin', 'Admin', 'admin', '1', '21232f297a57a5a743894a0e4a801fc3');

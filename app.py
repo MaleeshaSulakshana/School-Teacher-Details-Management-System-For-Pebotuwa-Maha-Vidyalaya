@@ -8,7 +8,7 @@ import psycopg2
 from flask import Flask, render_template, redirect, jsonify, url_for, request, session
 
 app = Flask(__name__)
-app.env = "development"
+app.env = "production"
 
 app.secret_key = "School_Teachers_Details_Management_System"
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))

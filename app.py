@@ -1,6 +1,4 @@
 import os
-import sys
-import random
 import hashlib
 import datetime
 import threading
@@ -41,14 +39,34 @@ def index():
         return redirect('/login')
 
     today = datetime.date.today()
-    current_teachers_count = 10
-    retired_teachers_count = 20
-    system_users_count = 2
+    current_teachers_count = 0
+    retired_teachers_count = 0
+    system_users_count = 0
+    current_teachers = []
+
+    conn = connector()
+    query = "SELECT COUNT(*) FROM public.system_users"
+    cur = conn.cursor()
+    cur.execute(query)
+    system_users_count = cur.fetchall()[0][0]
+
+    conn = connector()
+    query = "SELECT * FROM public.teachers WHERE status = 0"
+    cur = conn.cursor()
+    cur.execute(query)
+    current_teachers = cur.fetchall()
+    current_teachers_count = len(current_teachers)
+
+    conn = connector()
+    query = "SELECT COUNT(*) FROM public.teachers WHERE status = 1"
+    cur = conn.cursor()
+    cur.execute(query)
+    retired_teachers_count = cur.fetchall()[0][0]
 
     counts = [current_teachers_count,
               retired_teachers_count, system_users_count]
 
-    return render_template('index.html', today=today, counts=counts)
+    return render_template('index.html', today=today, counts=counts, teachers=current_teachers)
 
 
 # Route for login page
@@ -58,6 +76,24 @@ def login():
         return redirect('/index')
 
     return render_template('login.html')
+
+
+# Route for deactivate teachers page
+@app.route('/')
+@app.route('/deactivated-teacher')
+def deactivated_teacher():
+    if 'loggedId' not in session:
+        return redirect('/login')
+
+    teachers = []
+
+    conn = connector()
+    query = "SELECT * FROM public.teachers WHERE status = 1"
+    cur = conn.cursor()
+    cur.execute(query)
+    teachers = cur.fetchall()
+
+    return render_template('deactivated_teachers.html', teachers=teachers)
 
 
 # Route for add teacher page
@@ -75,7 +111,19 @@ def view_teacher():
     if 'loggedId' not in session:
         return redirect('/login')
 
-    return render_template('view_teacher_details.html')
+    id = request.args['id']
+    conn = connector()
+    query = "SELECT * FROM public.teachers WHERE id = %s"
+    values = (int(id),)
+    cur = conn.cursor()
+    cur.execute(query, values)
+    details = cur.fetchall()
+
+    if len(details) > 0:
+        return render_template('view_teacher_details.html', details=details[0])
+
+    else:
+        return redirect('/index')
 
 
 # Route for system users page
@@ -269,7 +317,7 @@ def add_new_system_user():
     return jsonify({'redirect': url_for('index')})
 
 
-# Route for add system user
+# Route for remove system user
 @app.route('/remove_system_user', methods=['GET', 'POST'])
 def remove_system_user():
 
@@ -302,6 +350,166 @@ def remove_system_user():
 
                 else:
                     return jsonify({'error': "System user not removed. Please try again! (පද්ධති පරිශීලකයා ඉවත් කර නැත. කරුණාකර නැවත උත්සාහ කරන්න!)"})
+
+    return jsonify({'redirect': url_for('index')})
+
+
+# Route for add new teacher
+@app.route('/add_new_teacher', methods=['GET', 'POST'])
+def add_new_teacher():
+
+    if request.method == "POST":
+
+        if 'loggedId' not in session:
+            return jsonify({'redirect': url_for('login')})
+
+        else:
+
+            fullName = request.form.get('fullName')
+            fullNameInitials = request.form.get('fullNameInitials')
+            dob = request.form.get('dob')
+            nic = request.form.get('nic')
+            address = request.form.get('address')
+            distance = request.form.get('distance')
+            landNumber = request.form.get('landNumber')
+            mobileNumber = request.form.get('mobileNumber')
+            email = request.form.get('email')
+            marriedPersonName = request.form.get('marriedPersonName')
+            marriedPersonJob = request.form.get('marriedPersonJob')
+            originalAppointment = request.form.get('originalAppointment')
+            gradeClass = request.form.get('gradeClass')
+            salaryImplementDate = request.form.get('salaryImplementDate')
+            servicedSchools = request.form.get('servicedSchools')
+            educationQualifications = request.form.get(
+                'educationQualifications')
+
+            if (len(fullName) == 0 or len(fullNameInitials) == 0 or len(dob) == 0 or len(nic) == 0 or
+                    len(address) == 0 or len(distance) == 0 or len(educationQualifications) == 0):
+
+                return jsonify({'error': "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)"})
+
+            else:
+
+                # Insert data
+                conn = connector()
+                row_count = 0
+
+                query = ''' INSERT INTO public.teachers 
+                    (full_name, full_name_initials, dob, nic, address, distance, tp_land, tp_mobile, email, married_person_name, 
+                    married_person_job, original_appointment_date, grade_class, salary_implement_date, previous_serviced_schools, 
+                    education_qualifications, status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
+                values = (str(fullName), str(fullNameInitials), str(dob), str(nic), str(address), str(distance), str(landNumber), str(mobileNumber), str(email), str(marriedPersonName),
+                          str(marriedPersonJob), str(originalAppointment), str(gradeClass), str(salaryImplementDate), str(servicedSchools), str(educationQualifications), int(0))
+                cur = conn.cursor()
+                cur.execute(query, values)
+                conn.commit()
+                row_count = cur.rowcount
+
+                if row_count > 0:
+                    return jsonify({'success': "Teacher details has been inserted! (ගුරු විස්තර ඇතුලත් කර ඇත!)"})
+
+                else:
+                    return jsonify({'error': "Teacher details not inserted. Please try again! (ගුරු විස්තර ඇතුලත් කර නැත. කරුණාකර නැවත උත්සාහ කරන්න!)"})
+
+    return jsonify({'redirect': url_for('index')})
+
+
+# Route for update teacher
+@app.route('/update_teacher', methods=['GET', 'POST'])
+def update_teacher():
+
+    if request.method == "POST":
+
+        if 'loggedId' not in session:
+            return jsonify({'redirect': url_for('login')})
+
+        else:
+
+            id = request.form.get('id')
+            fullName = request.form.get('fullName')
+            fullNameInitials = request.form.get('fullNameInitials')
+            dob = request.form.get('dob')
+            nic = request.form.get('nic')
+            address = request.form.get('address')
+            distance = request.form.get('distance')
+            landNumber = request.form.get('landNumber')
+            mobileNumber = request.form.get('mobileNumber')
+            email = request.form.get('email')
+            marriedPersonName = request.form.get('marriedPersonName')
+            marriedPersonJob = request.form.get('marriedPersonJob')
+            originalAppointment = request.form.get('originalAppointment')
+            gradeClass = request.form.get('gradeClass')
+            salaryImplementDate = request.form.get('salaryImplementDate')
+            servicedSchools = request.form.get('servicedSchools')
+            educationQualifications = request.form.get(
+                'educationQualifications')
+
+            if (len(id) == 0 or len(fullName) == 0 or len(fullNameInitials) == 0 or len(dob) == 0 or len(nic) == 0 or
+                    len(address) == 0 or len(distance) == 0 or len(educationQualifications) == 0):
+
+                return jsonify({'error': "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)"})
+
+            else:
+
+                # Insert data
+                conn = connector()
+                row_count = 0
+
+                query = ''' UPDATE public.teachers SET full_name = %s, full_name_initials = %s, dob = %s, nic = %s, address = %s, distance = %s, tp_land = %s, tp_mobile = %s, email = %s, married_person_name = %s, 
+                    married_person_job = %s, original_appointment_date = %s, grade_class = %s, salary_implement_date = %s, previous_serviced_schools = %s, 
+                    education_qualifications = %s WHERE id = %s '''
+                values = (str(fullName), str(fullNameInitials), str(dob), str(nic), str(address), str(distance), str(landNumber), str(mobileNumber), str(email), str(marriedPersonName),
+                          str(marriedPersonJob), str(originalAppointment), str(gradeClass), str(salaryImplementDate), str(servicedSchools), str(educationQualifications), int(id))
+                cur = conn.cursor()
+                cur.execute(query, values)
+                conn.commit()
+                row_count = cur.rowcount
+
+                if row_count > 0:
+                    return jsonify({'success': "Teacher details has been updated! (ගුරු විස්තර යාවත්කාලීන කර ඇත!)"})
+
+                else:
+                    return jsonify({'error': "Teacher details not updated. Please try again! (ගුරු විස්තර යාවත්කාලීන කර නැත. කරුණාකර නැවත උත්සාහ කරන්න!)"})
+
+    return jsonify({'redirect': url_for('index')})
+
+
+# Route for change teacher status
+@app.route('/change_status', methods=['GET', 'POST'])
+def change_status():
+
+    if request.method == "POST":
+
+        if 'loggedId' not in session:
+            return jsonify({'redirect': url_for('login')})
+
+        else:
+
+            id = request.form.get('id')
+            status = request.form.get('status')
+
+            if (len(id) == 0 or len(status) == 0):
+
+                return jsonify({'error': "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)"})
+
+            else:
+
+                # Insert data
+                conn = connector()
+                row_count = 0
+
+                query = ''' UPDATE public.teachers SET status = %s WHERE id = %s '''
+                values = (int(status), int(id))
+                cur = conn.cursor()
+                cur.execute(query, values)
+                conn.commit()
+                row_count = cur.rowcount
+
+                if row_count > 0:
+                    return jsonify({'success': "Teacher status has been updated! (ගුරුවරයාගේ තත්ත්වය යාවත්කාලීන කර ඇත!)"})
+
+                else:
+                    return jsonify({'error': "Teacher status not updated. Please try again! (ගුරුවරයාගේ තත්ත්වය යාවත්කාලීන කර නැත. කරුණාකර නැවත උත්සාහ කරන්න!)"})
 
     return jsonify({'redirect': url_for('index')})
 

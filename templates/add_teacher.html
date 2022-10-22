@@ -9,7 +9,7 @@
         <div class="card-body">
           <h4 class="card-title">Add New Teacher information (නව ගුරු තොරතුරු ඇතුලත් කරන්න)</h4>
 
-          <form class="forms-sample">
+          <form class="forms-sample" id="form">
             
             <div class="form-group">
               <label for="fullname">Teacher Full Name (ගුරු භවතාගේ සම්පුරණ නම)</label>
@@ -22,7 +22,7 @@
             </div>
 
             <div class="form-group">
-              <label for="dob">Date of Birth (උපන් දිනය)</label>
+              <label for="dob">Date of Birth (උපන් දිනය) - Format (Month/Day/Year) (ආකෘතිය (මාසය/දිනය/වසර))</label>
               <input type="date" class="form-control" id="dob" placeholder="Date of Birth (උපන් දිනය)">
             </div>
 
@@ -89,7 +89,7 @@
             </div>
 
             <button type="button" id="btn" class="btn btn-primary mr-2">Add (ඇතුලත් කරන්න)</button>
-            <button class="btn btn-light">Cancel (ඉවත් වන්න)</button>
+            <a href="/" class="btn btn-light">Cancel (ඉවත් වන්න)</a>
           </form>
         </div>
       </div>
@@ -160,7 +160,7 @@
             }
             else if (data.success) {
               Swal.fire(title, data.success, "success");
-              document.getElementById("form_login_account").reset();
+              document.getElementById("form").reset();
             }
             else if (data.error) {
               Swal.fire(title, data.error, "warning");

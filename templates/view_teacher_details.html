@@ -1,97 +1,108 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{% if details %}
+
 <div class="content-wrapper">
 
   <div class="row">
     <div class="col-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">View Teacher information (ගුරු භවතාගේ තොරතුරු බලන්න)</h4>
+          <h4 class="card-title" id="teacher-title">Teacher information's (ගුරු භවතාගේ තොරතුරු)</h4>
 
           <form class="forms-sample">
             
-            <div class="form-group">
-              <label for="fullname">Teacher Full Name (ගුරු භවතාගේ සම්පුරණ නම)</label>
-              <textarea class="form-control" id="fullname" rows="4" placeholder="Teacher Full Name (ගුරු භවතාගේ සම්පුරණ නම)"></textarea>
-            </div>
-            
-            <div class="form-group">
-              <label for="fullnameinitials">Full Name with Initials (මුලකුරු සමග නම)</label>
-              <textarea class="form-control" id="fullnameinitials" rows="4" placeholder="Full Name with Initials (මුලකුරු සමග නම)"></textarea>
+            <div id="teacher-Details">
+
+              <div class="form-group">
+                <label for="fullname">Teacher Full Name (ගුරු භවතාගේ සම්පුරණ නම)</label>
+                <textarea class="form-control" id="fullname" rows="4">{{ details[0] }}</textarea>
+              </div>
+              
+              <div class="form-group">
+                <label for="fullnameinitials">Full Name with Initials (මුලකුරු සමග නම)</label>
+                <textarea class="form-control" id="fullnameinitials" rows="4">{{ details[1] }}</textarea>
+              </div>
+  
+              <div class="form-group">
+                <label for="dob">Date of Birth (උපන් දිනය)</label>
+                <input type="date" class="form-control" id="dob" value="{{ details[2] }}">
+              </div>
+  
+              <div class="form-group">
+                <label for="nic">NIC Number (ජාතික හැදුනුම්පත් අංකය)</label>
+                <input type="text" class="form-control" id="nic" value="{{ details[3] }}">
+              </div>
+  
+              <div class="form-group">
+                <label for="address">Private Address (පුද්ගලික ලිපිනය)</label>
+                <textarea class="form-control" id="address" rows="4">{{ details[4] }}</textarea>
+              </div>
+  
+              <div class="form-group">
+                <label for="distance">Distance of Home to Service Place (නිවසේ සිට සේවා ස්ථානයට ඇති දුර)</label>
+                <input type="text" class="form-control" id="distance" value="{{ details[5] }}">
+              </div>
+  
+              <div class="form-group">
+                <label for="">Telephone Numbers (දුරකථන අංක)</label>
+                <input type="text" class="form-control" id="landnumber" value="{{ details[6] }}">
+                <br/>
+                <input type="text" class="form-control" id="mobilenumber" value="{{ details[7] }}">
+              </div>
+  
+              <div class="form-group">
+                <label for="email">Email Address (විද්‍යුත් ලිපිනය)</label>
+                <input type="email" class="form-control" id="email" value="{{ details[8] }}">
+              </div>
+  
+              <div class="form-group">
+                <label for="marriedpersonname">Married Person's Name (කලත්‍රයාගේ නම)</label>
+                <textarea class="form-control" id="marriedpersonname" rows="4">{{ details[9] }}</textarea>
+              </div>
+  
+              <div class="form-group">
+                <label for="marriedpersonjob">Married Person's Job and Service Place (කලත්‍රයාගේ රැකියාව සහ සේවා ස්ථානය)</label>
+                <textarea class="form-control" id="marriedpersonjob" rows="4">{{ details[10] }}</textarea>
+              </div>
+  
+              <div class="form-group">
+                <label for="originalappointment">Date of Original Appointment (මුල් පත්වීම් දිනය)</label>
+                <input type="date" class="form-control" id="originalappointment" value="{{ details[11] }}">
+              </div>
+  
+              <div class="form-group">
+                <label for="gradeclass">Teacher/Principal Grade and Class (ගුරු/විදුහල්පති ශේණිය හා පංතිය)</label>
+                <input type="text" class="form-control" id="gradeclass" value="{{ details[12] }}">
+              </div>
+  
+              <div class="form-group">
+                <label for="salaryimplementdate">Salary Implement Date (වැටුප් වර්ධක දිනය)</label>
+                <input type="text" class="form-control" id="salaryimplementdate" value="{{ details[13] }}">
+              </div>
+  
+              <div class="form-group">
+                <label for="servicedschools">Previous Serviced Schools (මෙතෙක් සේවයකල පාසල්)</label>
+                <textarea class="form-control" id="servicedschools" rows="5">{{ details[14] }}</textarea>
+              </div>
+  
+              <div class="form-group">
+                <label for="educationqualifications">Education Qualifications (අධ්‍යාපන සුදුසුකම්)</label>
+                <textarea class="form-control" id="educationqualifications" rows="5">{{ details[15] }}</textarea>
+              </div>
+
             </div>
 
-            <div class="form-group">
-              <label for="dob">Date of Birth (උපන් දිනය)</label>
-              <input type="date" class="form-control" id="dob" placeholder="Date of Birth (උපන් දිනය)">
-            </div>
-
-            <div class="form-group">
-              <label for="nic">NIC Number (ජාතික හැදුනුම්පත් අංකය)</label>
-              <input type="text" class="form-control" id="nic" placeholder="NIC Number (ජාතික හැදුනුම්පත් අංකය)">
-            </div>
-
-            <div class="form-group">
-              <label for="address">Private Address (පුද්ගලික ලිපිනය)</label>
-              <textarea class="form-control" id="address" rows="4" placeholder="Private Address (පුද්ගලික ලිපිනය)"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="distance">Distance of Home to Service Place (නිවසේ සිට සේවා ස්ථානයට ඇති දුර)</label>
-              <input type="text" class="form-control" id="distance" placeholder="Distance of Home to Service Place (නිවසේ සිට සේවා ස්ථානයට ඇති දුර)">
-            </div>
-
-            <div class="form-group">
-              <label for="">Telephone Numbers (දුරකථන අංක)</label>
-              <input type="text" class="form-control" id="landnumber" placeholder="Land Line (ස්ථාවර)">
-              <br/>
-              <input type="text" class="form-control" id="mobilenumber" placeholder="Mobile (ජංගම)">
-            </div>
-
-            <div class="form-group">
-              <label for="email">Email Address (විද්‍යුත් ලිපිනය)</label>
-              <input type="email" class="form-control" id="email" placeholder="Email Address (විද්‍යුත් ලිපිනය)">
-            </div>
-
-            <div class="form-group">
-              <label for="marriedpersonname">Married Person's Name (කලත්‍රයාගේ නම)</label>
-              <textarea class="form-control" id="marriedpersonname" rows="4" placeholder="Married Person's Name (කලත්‍රයාගේ නම)"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="marriedpersonjob">Married Person's Job and Service Place (කලත්‍රයාගේ රැකියාව සහ සේවා ස්ථානය)</label>
-              <textarea class="form-control" id="marriedpersonjob" rows="4" placeholder="Married Person's Job and Service Place (කලත්‍රයාගේ රැකියාව සහ සේවා ස්ථානය)"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="originalappointment">Date of Original Appointment (මුල් පත්වීම් දිනය)</label>
-              <input type="date" class="form-control" id="originalappointment" placeholder="Date of Original Appointment (මුල් පත්වීම් දිනය)">
-            </div>
-
-            <div class="form-group">
-              <label for="gradeclass">Teacher/Principal Grade and Class (ගුරු/විදුහල්පති ශේණිය හා පංතිය)</label>
-              <input type="text" class="form-control" id="gradeclass" placeholder="Teacher/Principal Grade and Class (ගුරු/විදුහල්පති ශේණිය හා පංතිය)">
-            </div>
-
-            <div class="form-group">
-              <label for="salaryimplementdate">Salary Implement Date (වැටුප් වර්ධක දිනය)</label>
-              <input type="text" class="form-control" id="salaryimplementdate" placeholder="Salary Implement Date (වැටුප් වර්ධක දිනය)">
-            </div>
-
-            <div class="form-group">
-              <label for="servicedschools">Previous Serviced Schools (මෙතෙක් සේවයකල පාසල්)</label>
-              <textarea class="form-control" id="servicedschools" rows="5" placeholder="Previous Serviced Schools (මෙතෙක් සේවයකල පාසල්)"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="educationqualifications">Education Qualifications (අධ්‍යාපන සුදුසුකම්)</label>
-              <textarea class="form-control" id="educationqualifications" rows="5" placeholder="Education Qualifications (අධ්‍යාපන සුදුසුකම්)"></textarea>
-            </div>
-
-            <button type="button" id="btn" class="btn btn-primary mr-2">Update (යාවත්කාලීන කරන්න)</button>
-            <button type="button" class="btn btn-danger mr-2">Disable (අක්‍රිය කරන්න)</button>
-            <button class="btn btn-light">Cancel (ඉවත් වන්න)</button>
-            <button type="button" class="btn btn-success mr-2">Print (මුද්‍රණය කරන්න)</button>
+            {% if details[17] == 0 %}
+            <button type="button" id="edit" class="btn btn-primary mr-2">Edit (සංස්කරණය කරන්න)</button>
+            <button type="button" id="update" onclick="updateValues('{{ details[16] }}')" class="btn btn-primary mr-2">Update (යාවත්කාලීන කරන්න)</button>
+            <button type="button" id="deactivate" onclick="setStatus('{{ details[16] }}', '1')" class="btn btn-danger mr-2">Deactivate (අක්‍රිය කරන්න)</button>
+            {% else %}
+            <button type="button" id="activate" onclick="setStatus('{{ details[16] }}', '0')" class="btn btn-primary mr-2">Active (ක්රියාකාරී කරන්න)</button>
+            {% endif %}
+            <a href="/" class="btn btn-light">Cancel (ඉවත් වන්න)</a>
+            <button type="button" id="print" onclick="downloadReceptPdf('{{ details[1] }}')" class="btn btn-success mr-2">Print (මුද්‍රණය කරන්න)</button>
           </form>
         </div>
       </div>
@@ -102,82 +113,229 @@
 
 <script>
 
+  $(window).on('load', function(){
+    
+    fieldsDisable(true);
+
+    $('#edit').show();
+    $('#update').hide();
+    $('#deactivate').show();
+    $('#print').show();
+
+  });
+
   $(function () {
-    $('#btn').click(function () {
+      $('#edit').click(function () {
 
-      var fullName = $('#fullname').val();
-      var fullNameInitials = $('#fullnameinitials').val();
-      var dob = $('#dob').val();
-      var nic = $('#nic').val();
-      var address = $('#address').val();
-      var distance = $('#distance').val();
-      var landNumber = $('#landnumber').val();
-      var mobileNumber = $('#mobilenumber').val();
-      var email = $('#email').val();
-      var marriedPersonName = $('#marriedpersonname').val();
-      var marriedPersonJob = $('#marriedpersonjob').val();
-      var originalAppointment = $('#originalappointment').val();
-      var gradeClass = $('#gradeclass').val();
-      var salaryImplementDate = $('#salaryimplementdate').val();
-      var servicedSchools = $('#servicedschools').val();
-      var educationQualifications = $('#educationqualifications').val();
+        fieldsDisable(false);
+        $('#edit').hide();
+        $('#update').show();
+        $('#print').hide();
 
-      var title = "Add New Teacher Information (නව ගුරු තොරතුරු ඇතුලත් කරන්න)";
+      })
+  })
 
-      if (fullName == "" || fullNameInitials == "" || dob == "" || nic == "" || address == "" || distance == "" || educationQualifications == "") {
-        swal.fire(title, "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)", "warning");
+  function fieldsDisable(type) {
+    $("#fullname").prop('disabled', type);
+    $("#fullnameinitials").prop('disabled', type);
+    $("#dob").prop('disabled', type);
+    $("#nic").prop('disabled', type);
+    $("#address").prop('disabled', type);
+    $("#distance").prop('disabled', type);
+    $("#landnumber").prop('disabled', type);
+    $("#mobilenumber").prop('disabled', type);
+    $("#email").prop('disabled', type);
+    $("#marriedpersonname").prop('disabled', type);
+    $("#marriedpersonjob").prop('disabled', type);
+    $("#originalappointment").prop('disabled', type);
+    $("#gradeclass").prop('disabled', type);
+    $("#salaryimplementdate").prop('disabled', type);
+    $("#servicedschools").prop('disabled', type);
+    $("#educationqualifications").prop('disabled', type);
+  }
 
-      } else {
+  function updateValues(idValue) {
 
-        var form_data = new FormData();
-        form_data.append('fullName', fullName);
-        form_data.append('fullNameInitials', fullNameInitials);
-        form_data.append('dob', dob);
-        form_data.append('nic', nic);
-        form_data.append('address', address);
-        form_data.append('distance', distance);
-        form_data.append('landNumber', landNumber);
-        form_data.append('mobileNumber', mobileNumber);
-        form_data.append('email', email);
-        form_data.append('marriedPersonName', marriedPersonName);
-        form_data.append('marriedPersonJob', marriedPersonJob);
-        form_data.append('originalAppointment', originalAppointment);
-        form_data.append('gradeClass', gradeClass);
-        form_data.append('salaryImplementDate', salaryImplementDate);
-        form_data.append('servicedSchools', servicedSchools);
-        form_data.append('educationQualifications', educationQualifications);
+    Swal.fire({
+          icon: 'question',
+          title: "Do you want update teacher information's? (ඔබට ගුරු තොරතුරු යාවත්කාලීන කිරීමට අවශ්‍යද?)",
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: 'Yes (ඔව්)',
+          denyButtonText: 'No (නැත)',
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
 
-        $.ajax({
-          url: "/add_new_teacher",
-          enctype: 'multipart/form-data',
-          data: form_data,
-          contentType: false,
-          cache: false,
-          processData: false,
-          type: 'POST',
+            var id = idValue;
+            var fullName = $('#fullname').val();
+            var fullNameInitials = $('#fullnameinitials').val();
+            var dob = $('#dob').val();
+            var nic = $('#nic').val();
+            var address = $('#address').val();
+            var distance = $('#distance').val();
+            var landNumber = $('#landnumber').val();
+            var mobileNumber = $('#mobilenumber').val();
+            var email = $('#email').val();
+            var marriedPersonName = $('#marriedpersonname').val();
+            var marriedPersonJob = $('#marriedpersonjob').val();
+            var originalAppointment = $('#originalappointment').val();
+            var gradeClass = $('#gradeclass').val();
+            var salaryImplementDate = $('#salaryimplementdate').val();
+            var servicedSchools = $('#servicedschools').val();
+            var educationQualifications = $('#educationqualifications').val();
+
+            var title = "Update Teacher Information (ගුරු තොරතුරු යාවත්කාලීන කරන්න)";
+
+            if (id == "" || fullName == "" || fullNameInitials == "" || dob == "" || nic == "" || address == "" || distance == "" || educationQualifications == "") {
+              swal.fire(title, "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)", "warning");
+
+            } else {
+
+              var form_data = new FormData();
+              form_data.append('id', id);
+              form_data.append('fullName', fullName);
+              form_data.append('fullNameInitials', fullNameInitials);
+              form_data.append('dob', dob);
+              form_data.append('nic', nic);
+              form_data.append('address', address);
+              form_data.append('distance', distance);
+              form_data.append('landNumber', landNumber);
+              form_data.append('mobileNumber', mobileNumber);
+              form_data.append('email', email);
+              form_data.append('marriedPersonName', marriedPersonName);
+              form_data.append('marriedPersonJob', marriedPersonJob);
+              form_data.append('originalAppointment', originalAppointment);
+              form_data.append('gradeClass', gradeClass);
+              form_data.append('salaryImplementDate', salaryImplementDate);
+              form_data.append('servicedSchools', servicedSchools);
+              form_data.append('educationQualifications', educationQualifications);
+
+              $.ajax({
+                url: "/update_teacher",
+                enctype: 'multipart/form-data',
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                type: 'POST',
+              })
+                .done(function (data) {
+                  if (data.redirect) {
+                    window.location.href = data.redirect;
+                  }
+                  else if (data.success) {
+                    Swal.fire(title, data.success, "success");
+
+                    fieldsDisable(true);
+                    $('#edit').show();
+                    $('#update').hide();
+                    $('#deactivate').show();
+                    $('#print').show();
+                  }
+                  else if (data.error) {
+                    Swal.fire(title, data.error, "warning");
+                  }
+                  else {
+                    Swal.fire(title, "Some error occur! (යම් දෝෂයක් සිදු වේ!)", "warning");
+                  }
+                });
+
+            }
+
+          } else if (result.isDenied) {
+            Swal.hide();
+          }
         })
-          .done(function (data) {
-            if (data.redirect) {
-              window.location.href = data.redirect;
-            }
-            else if (data.success) {
-              Swal.fire(title, data.success, "success");
-              document.getElementById("form_login_account").reset();
-            }
-            else if (data.error) {
-              Swal.fire(title, data.error, "warning");
-            }
-            else {
-              Swal.fire(title, "Some error occur! (යම් දෝෂයක් සිදු වේ!)", "warning");
-            }
-          });
+
+      event.preventDefault();
+    };
+
+    function setStatus(idValue, setstatus) {
+
+      Swal.fire({
+          icon: 'question',
+          title: 'Do you want update teacher status? (ඔබට ගුරු තත්ත්වය යාවත්කාලීන කිරීමට අවශ්‍යද?)',
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: 'Yes (ඔව්)',
+          denyButtonText: 'No (නැත)',
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            
+            var id = idValue;
+            var status = setstatus;
+
+            var title = "Change Teacher Information Status (ගුරු තොරතුරු තත්ත්වය වෙනස් කරන්න)";
+
+            if (id == "" || setstatus == "") {
+              swal.fire(title, "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)", "warning");
+
+            } else {
+
+              var form_data = new FormData();
+              form_data.append('id', id);
+              form_data.append('status', status);
+
+              $.ajax({
+                url: "/change_status",
+                enctype: 'multipart/form-data',
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                type: 'POST',
+              })
+                .done(function (data) {
+                  if (data.redirect) {
+                    window.location.href = data.redirect;
+                  }
+                  else if (data.success) {
+                    Swal.fire(title, data.success, "success");
+
+                    window.location.reload();
+                  }
+                  else if (data.error) {
+                    Swal.fire(title, data.error, "warning");
+                  }
+                  else {
+                    Swal.fire(title, "Some error occur! (යම් දෝෂයක් සිදු වේ!)", "warning");
+                  }
+                });
+
+              }
+
+          } else if (result.isDenied) {
+            Swal.hide();
+          }
+        })
+
+        event.preventDefault();
+      };
+
+    function downloadReceptPdf(fileName) {
+
+      var pdf_content = document.getElementById("teacher-title");
+      var pdf_body = document.getElementById("teacher-Details");
+
+      pdf_content.append(pdf_body)
+
+      var options = {
+        margin: 1,
+        filename: fileName + '.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+
+      };
+
+      html2pdf(pdf_content, options);
 
       }
 
-      event.preventDefault();
-    });
-  });
-
 </script>
+
+{% endif %}
 
 {% endblock %}

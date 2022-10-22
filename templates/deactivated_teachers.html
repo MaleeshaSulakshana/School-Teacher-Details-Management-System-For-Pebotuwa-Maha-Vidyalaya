@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="content-wrapper">
+
+  <div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">All Deactivated Teachers (සියලුම අක්‍රිය ගුරුවරුන්)</h4>
+
+          <div class="input-group">
+            <input id="search" type="text" class="form-control" onkeyup="filter()" placeholder="Search (සොයන්න)">
+          </div>
+
+          <div class="table-responsive">
+            <table id="tbl" class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Name of Teacher</th>
+                  <th>Joined Date</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+
+                {% if teachers %}
+                {% for i in teachers %}
+                <tr>
+                  <td>{{ i[0] }}</td>
+                  <td>
+                    <a href="/view-teacher?id={{ i[16] }}" class="btn btn-outline-info btn-fw">View (බලන්න)</a>
+                  </td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+function filter() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input =document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tbl");
+    tr = table.getElementsByTagName("tr");
+  
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+</script>
+
+{% endblock %}

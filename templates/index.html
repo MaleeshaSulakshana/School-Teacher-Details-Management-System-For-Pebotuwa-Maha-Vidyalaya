@@ -15,7 +15,7 @@
           <div class="justify-content-end d-flex">
             <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
               <div class="btn btn-sm btn-light bg-white">
-                <i class="mdi mdi-calendar"></i> Today (අද දිනය) - 2022-10-16
+                <i class="mdi mdi-calendar"></i> Today (අද දිනය) - {{ today }}
               </div>
             </div>
           </div>
@@ -72,7 +72,7 @@
     <div class="col-lg-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title">All Teachers (සියලුම ගුරුභවතුන්)</h4>
+          <h4 class="card-title">All Current Teachers (සියලුම වත්මන් ගුරුභවතුන්)</h4>
 
           <div class="input-group">
             <input id="search" type="text" class="form-control" onkeyup="filter()" placeholder="Search (සොයන්න)">
@@ -89,13 +89,16 @@
               </thead>
               <tbody>
 
+                {% if teachers %}
+                {% for i in teachers %}
                 <tr>
-                  <td>Teacher</td>
-                  <td>2022-10-16</td>
+                  <td>{{ i[0] }}</td>
                   <td>
-                    <a href="/view-teacher" class="btn btn-outline-info btn-fw">View (බලන්න)</a>
+                    <a href="/view-teacher?id={{ i[16] }}" class="btn btn-outline-info btn-fw">View (බලන්න)</a>
                   </td>
                 </tr>
+                {% endfor %}
+                {% endif %}
 
               </tbody>
             </table>

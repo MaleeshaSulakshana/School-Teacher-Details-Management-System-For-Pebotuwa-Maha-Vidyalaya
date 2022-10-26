@@ -101,6 +101,9 @@
             {% else %}
             <button type="button" id="activate" onclick="setStatus('{{ details[16] }}', '0')" class="btn btn-primary mr-2">Active (ක්රියාකාරී කරන්න)</button>
             {% endif %}
+            {% if session['type'] == '1' %}
+            <button type="button" id="delete" onclick="deleteValue('{{ details[16] }}')" class="btn btn-danger mr-2">Delete (මකන්න)</button>
+            {% endif %}
             <a href="/" class="btn btn-light">Cancel (ඉවත් වන්න)</a>
             <button type="button" id="print" onclick="downloadReceptPdf('{{ details[1] }}')" class="btn btn-success mr-2">Print (මුද්‍රණය කරන්න)</button>
           </form>
@@ -164,7 +167,7 @@
           confirmButtonText: 'Yes (ඔව්)',
           denyButtonText: 'No (නැත)',
         }).then((result) => {
-          /* Read more about isConfirmed, isDenied below */
+          
           if (result.isConfirmed) {
 
             var id = idValue;
@@ -261,7 +264,7 @@
           confirmButtonText: 'Yes (ඔව්)',
           denyButtonText: 'No (නැත)',
         }).then((result) => {
-          /* Read more about isConfirmed, isDenied below */
+          
           if (result.isConfirmed) {
             
             var id = idValue;
@@ -312,7 +315,68 @@
         })
 
         event.preventDefault();
+    };
+
+    
+    function deleteValue(idValue) {
+
+      Swal.fire({
+          icon: 'question',
+          title: 'Do you want delete teacher informations? (ඔබට ගුරු තොරතුරු මකා දැමීමට අවශ්‍යද?)',
+          showDenyButton: true,
+          showCancelButton: false,
+          confirmButtonText: 'Yes (ඔව්)',
+          denyButtonText: 'No (නැත)',
+        }).then((result) => {
+          
+          if (result.isConfirmed) {
+            
+            var id = idValue;
+            var title = "Delete Teacher Information (ගුරු තොරතුරු මකන්න)";
+
+            if (id == "") {
+              swal.fire(title, "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)", "warning");
+
+            } else {
+
+              var form_data = new FormData();
+              form_data.append('id', id);
+
+              $.ajax({
+                url: "/remove_teacher",
+                enctype: 'multipart/form-data',
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                type: 'POST',
+              })
+                .done(function (data) {
+                  if (data.redirect) {
+                    window.location.href = data.redirect;
+                  }
+                  else if (data.success) {
+                    Swal.fire(title, data.success, "success");
+                    window.location.href = "/";
+                  }
+                  else if (data.error) {
+                    Swal.fire(title, data.error, "warning");
+                  }
+                  else {
+                    Swal.fire(title, "Some error occur! (යම් දෝෂයක් සිදු වේ!)", "warning");
+                  }
+                });
+
+              }
+
+          } else if (result.isDenied) {
+            Swal.hide();
+          }
+        })
+
+        event.preventDefault();
       };
+
 
     function downloadReceptPdf(fileName) {
 

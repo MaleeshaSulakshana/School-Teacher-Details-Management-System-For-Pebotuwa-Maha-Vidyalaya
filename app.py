@@ -421,54 +421,57 @@ def add_new_system_user():
         if 'loggedId' not in session:
             return jsonify({'redirect': url_for('login')})
 
+        if 'type' in session:
+            if session['type'] != '1':
+                return jsonify({'redirect': url_for('page_not_found')})
+
+        fname = request.form.get('fname')
+        lname = request.form.get('lname')
+        uname = request.form.get('uname')
+        type = request.form.get('type')
+        psw = request.form.get('psw')
+        cpsw = request.form.get('cpsw')
+
+        if (len(fname) == 0 or len(lname) == 0 or len(uname) == 0 or len(type) == 0 or len(psw) == 0 or len(cpsw) == 0):
+
+            return jsonify({'error': "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)"})
+
+        elif psw != cpsw:
+            return jsonify({'error': "Password are not matched (මුරපද තහවුරු කරන්න!)"})
+
         else:
-            fname = request.form.get('fname')
-            lname = request.form.get('lname')
-            uname = request.form.get('uname')
-            type = request.form.get('type')
-            psw = request.form.get('psw')
-            cpsw = request.form.get('cpsw')
 
-            if (len(fname) == 0 or len(lname) == 0 or len(uname) == 0 or len(type) == 0 or len(psw) == 0 or len(cpsw) == 0):
+            # Check username is exist
+            conn = connector()
+            query = "SELECT COUNT(*) FROM public.system_users WHERE username = %s"
+            values = (str(uname),)
+            cur = conn.cursor()
+            cur.execute(query, values)
 
-                return jsonify({'error': "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)"})
+            if cur.fetchall()[0][0] > 0:
+                return jsonify({'error': "Username already exist! (පරිශීලක නාමය දැනටමත් පවතී!)"})
 
-            elif psw != cpsw:
-                return jsonify({'error': "Password are not matched (මුරපද තහවුරු කරන්න!)"})
+            psw = hashlib.md5(psw.encode()).hexdigest()
+
+            # Insert data
+            row_count = 0
+
+            query = ''' INSERT INTO public.system_users (first_name, last_name, username, user_type, password) VALUES (%s, %s, %s, %s, %s) '''
+            values = (str(fname), str(lname), str(
+                uname), int(type), str(psw))
+            cur = conn.cursor()
+            cur.execute(query, values)
+            conn.commit()
+            row_count = cur.rowcount
+
+            if conn:
+                conn.close()
+
+            if row_count > 0:
+                return jsonify({'success': "Account has been created! (ගිණුම නිර්මාණය කර ඇත!)"})
 
             else:
-
-                # Check username is exist
-                conn = connector()
-                query = "SELECT COUNT(*) FROM public.system_users WHERE username = %s"
-                values = (str(uname),)
-                cur = conn.cursor()
-                cur.execute(query, values)
-
-                if cur.fetchall()[0][0] > 0:
-                    return jsonify({'error': "Username already exist! (පරිශීලක නාමය දැනටමත් පවතී!)"})
-
-                psw = hashlib.md5(psw.encode()).hexdigest()
-
-                # Insert data
-                row_count = 0
-
-                query = ''' INSERT INTO public.system_users (first_name, last_name, username, user_type, password) VALUES (%s, %s, %s, %s, %s) '''
-                values = (str(fname), str(lname), str(
-                    uname), int(type), str(psw))
-                cur = conn.cursor()
-                cur.execute(query, values)
-                conn.commit()
-                row_count = cur.rowcount
-
-                if conn:
-                    conn.close()
-
-                if row_count > 0:
-                    return jsonify({'success': "Account has been created! (ගිණුම නිර්මාණය කර ඇත!)"})
-
-                else:
-                    return jsonify({'error': "Account not created. Please try again! (ගිණුම සාදා නැත. කරුණාකර නැවත උත්සාහ කරන්න!)"})
+                return jsonify({'error': "Account not created. Please try again! (ගිණුම සාදා නැත. කරුණාකර නැවත උත්සාහ කරන්න!)"})
 
     return jsonify({'redirect': url_for('index')})
 
@@ -482,33 +485,36 @@ def remove_system_user():
         if 'loggedId' not in session:
             return jsonify({'redirect': url_for('login')})
 
-        else:
-            username = request.form.get('username')
+        if 'type' in session:
+            if session['type'] != '1':
+                return jsonify({'redirect': url_for('page_not_found')})
 
-            if (len(username) == 0):
-                return jsonify({'error': "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)"})
+        username = request.form.get('username')
+
+        if (len(username) == 0):
+            return jsonify({'error': "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)"})
+
+        else:
+
+            # Delete data
+            conn = connector()
+            row_count = 0
+
+            query = ''' DELETE FROM public.system_users WHERE username = %s '''
+            values = (str(username), )
+            cur = conn.cursor()
+            cur.execute(query, values)
+            conn.commit()
+            row_count = cur.rowcount
+
+            if conn:
+                conn.close()
+
+            if row_count > 0:
+                return jsonify({'success': "System user has been removed! (පද්ධති පරිශීලකයා ඉවත් කර ඇත!)"})
 
             else:
-
-                # Delete data
-                conn = connector()
-                row_count = 0
-
-                query = ''' DELETE FROM public.system_users WHERE username = %s '''
-                values = (str(username), )
-                cur = conn.cursor()
-                cur.execute(query, values)
-                conn.commit()
-                row_count = cur.rowcount
-
-                if conn:
-                    conn.close()
-
-                if row_count > 0:
-                    return jsonify({'success': "System user has been removed! (පද්ධති පරිශීලකයා ඉවත් කර ඇත!)"})
-
-                else:
-                    return jsonify({'error': "System user not removed. Please try again! (පද්ධති පරිශීලකයා ඉවත් කර නැත. කරුණාකර නැවත උත්සාහ කරන්න!)"})
+                return jsonify({'error': "System user not removed. Please try again! (පද්ධති පරිශීලකයා ඉවත් කර නැත. කරුණාකර නැවත උත්සාහ කරන්න!)"})
 
     return jsonify({'redirect': url_for('index')})
 
@@ -678,6 +684,50 @@ def change_status():
 
                 else:
                     return jsonify({'error': "Teacher status not updated. Please try again! (ගුරුවරයාගේ තත්ත්වය යාවත්කාලීන කර නැත. කරුණාකර නැවත උත්සාහ කරන්න!)"})
+
+    return jsonify({'redirect': url_for('index')})
+
+
+# Route for remove teacher
+@app.route('/remove_teacher', methods=['GET', 'POST'])
+def remove_teacher():
+
+    if request.method == "POST":
+
+        if 'loggedId' not in session:
+            return jsonify({'redirect': url_for('login')})
+
+        if 'type' in session:
+            if session['type'] != '1':
+                return jsonify({'redirect': url_for('page_not_found')})
+
+        id = request.form.get('id')
+
+        if len(id) == 0:
+
+            return jsonify({'error': "Fields are empty! (ආදාන ක්ෂේත්‍ර හිස්ය!)"})
+
+        else:
+
+            # Insert data
+            conn = connector()
+            row_count = 0
+
+            query = ''' DELETE FROM public.teachers WHERE id = %s '''
+            values = (int(id),)
+            cur = conn.cursor()
+            cur.execute(query, values)
+            conn.commit()
+            row_count = cur.rowcount
+
+            if conn:
+                conn.close()
+
+            if row_count > 0:
+                return jsonify({'success': "Teacher has been deleted! (ගුරුවරයා මකා ඇත!)"})
+
+            else:
+                return jsonify({'error': "Teacher not deleted. Please try again! (ගුරුවරයා මකා නැත. කරුණාකර නැවත උත්සාහ කරන්න!)"})
 
     return jsonify({'redirect': url_for('index')})
 

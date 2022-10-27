@@ -9,87 +9,293 @@
     <div class="col-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
-          <h4 class="card-title" id="teacher-title">Teacher information's (ගුරු භවතාගේ තොරතුරු)</h4>
+          <h4 class="card-title" id="teacher-title">Teacher information's</h4>
 
           <form class="forms-sample">
             
             <div id="teacher-Details">
 
               <div class="form-group">
-                <label for="fullname">Teacher Full Name (ගුරු භවතාගේ සම්පුරණ නම)</label>
+                <label for="fullname">Teacher Full Name</label>
                 <textarea class="form-control" id="fullname" rows="4">{{ details[0] }}</textarea>
               </div>
               
               <div class="form-group">
-                <label for="fullnameinitials">Full Name with Initials (මුලකුරු සමග නම)</label>
+                <label for="fullnameinitials">Full Name with Initials</label>
                 <textarea class="form-control" id="fullnameinitials" rows="4">{{ details[1] }}</textarea>
               </div>
   
               <div class="form-group">
-                <label for="dob">Date of Birth (උපන් දිනය)</label>
+                <label for="dob">Date of Birth</label>
                 <input type="date" class="form-control" id="dob" value="{{ details[2] }}">
               </div>
   
               <div class="form-group">
-                <label for="nic">NIC Number (ජාතික හැදුනුම්පත් අංකය)</label>
+                <label for="nic">NIC Number</label>
                 <input type="text" class="form-control" id="nic" value="{{ details[3] }}">
               </div>
   
               <div class="form-group">
-                <label for="address">Private Address (පුද්ගලික ලිපිනය)</label>
+                <label for="address">Private Address</label>
                 <textarea class="form-control" id="address" rows="4">{{ details[4] }}</textarea>
               </div>
   
               <div class="form-group">
-                <label for="distance">Distance of Home to Service Place (නිවසේ සිට සේවා ස්ථානයට ඇති දුර)</label>
+                <label for="distance">Distance of Home to Service Place</label>
                 <input type="text" class="form-control" id="distance" value="{{ details[5] }}">
               </div>
   
               <div class="form-group">
-                <label for="">Telephone Numbers (දුරකථන අංක)</label>
+                <label for="">Telephone Numbers</label>
                 <input type="text" class="form-control" id="landnumber" value="{{ details[6] }}">
                 <br/>
                 <input type="text" class="form-control" id="mobilenumber" value="{{ details[7] }}">
               </div>
   
               <div class="form-group">
-                <label for="email">Email Address (විද්‍යුත් ලිපිනය)</label>
+                <label for="email">Email Address</label>
                 <input type="email" class="form-control" id="email" value="{{ details[8] }}">
               </div>
   
               <div class="form-group">
-                <label for="marriedpersonname">Married Person's Name (කලත්‍රයාගේ නම)</label>
+                <label for="marriedpersonname">Married Person's Name</label>
                 <textarea class="form-control" id="marriedpersonname" rows="4">{{ details[9] }}</textarea>
               </div>
   
               <div class="form-group">
-                <label for="marriedpersonjob">Married Person's Job and Service Place (කලත්‍රයාගේ රැකියාව සහ සේවා ස්ථානය)</label>
+                <label for="marriedpersonjob">Married Person's Job and Service Place</label>
                 <textarea class="form-control" id="marriedpersonjob" rows="4">{{ details[10] }}</textarea>
               </div>
   
               <div class="form-group">
-                <label for="originalappointment">Date of Original Appointment (මුල් පත්වීම් දිනය)</label>
+                <label for="originalappointment">Date of Original Appointment</label>
                 <input type="date" class="form-control" id="originalappointment" value="{{ details[11] }}">
               </div>
   
               <div class="form-group">
-                <label for="gradeclass">Teacher/Principal Grade and Class (ගුරු/විදුහල්පති ශේණිය හා පංතිය)</label>
+                <label for="gradeclass">Teacher/Principal Grade and Class</label>
                 <input type="text" class="form-control" id="gradeclass" value="{{ details[12] }}">
               </div>
   
               <div class="form-group">
-                <label for="salaryimplementdate">Salary Implement Date (වැටුප් වර්ධක දිනය)</label>
+                <label for="salaryimplementdate">Salary Implement Date</label>
                 <input type="text" class="form-control" id="salaryimplementdate" value="{{ details[13] }}">
               </div>
   
               <div class="form-group">
-                <label for="servicedschools">Previous Serviced Schools (මෙතෙක් සේවයකල පාසල්)</label>
+                <label for="servicedschools">Previous Serviced Schools</label>
                 <textarea class="form-control" id="servicedschools" rows="5">{{ details[14] }}</textarea>
               </div>
   
               <div class="form-group">
-                <label for="educationqualifications">Education Qualifications (අධ්‍යාපන සුදුසුකම්)</label>
+                <label for="educationqualifications">Education Qualifications</label>
                 <textarea class="form-control" id="educationqualifications" rows="5">{{ details[15] }}</textarea>
+              </div>
+
+              <div class="form-group">
+                <h4 for="">Ordinary Level</h4>
+              </div>
+  
+              <div class="form-group">
+                <label for="olyear">Ordinary Level Year</label>
+                <input type="text" class="form-control" id="olyear" placeholder="Ordinary Level Year">
+              </div>
+  
+              <div class="form-group">
+                <label for="">Ordinary Level Subjects</label>
+  
+                <div class="form-group row">
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="ol1" type="text" placeholder="1.">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="ol6" type="text" placeholder="6.">
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="form-group row">
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="ol2" type="text" placeholder="2.">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="ol7" type="text" placeholder="7.">
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="form-group row">
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="ol3" type="text" placeholder="3.">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="ol8" type="text" placeholder="8.">
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="form-group row">
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="ol4" type="text" placeholder="4.">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="ol9" type="text" placeholder="9.">
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="form-group row">
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="ol5" type="text" placeholder="5.">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="ol10" type="text" placeholder="10.">
+                    </div>
+                  </div>
+                </div>
+  
+              </div>
+  
+              <div class="form-group">
+                <h4 for="">Advanced Level</h4>
+              </div>
+  
+              <div class="form-group">
+                <label for="alstream">Advanced Level Subject Stream</label>
+                <input type="text" class="form-control" id="alstream">
+              </div>
+  
+              <div class="form-group">
+                <label for="alyear">Advanced Level Year</label>
+                <input type="text" class="form-control" id="alyear">
+              </div>
+  
+              <div class="form-group">
+                <label for="">Advance Level Subjects</label>
+  
+                <div class="form-group row">
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="al1" type="text" placeholder="1.">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="al3" type="text" placeholder="3.">
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="form-group row">
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="al2" type="text" placeholder="2.">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="al4" type="text" placeholder="4.">
+                    </div>
+                  </div>
+                </div>
+  
+              </div>
+  
+              <div class="form-group">
+                <label for="isdegree">Is Degree Have?</label>
+                <select class="form-control" id="isdegree">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+  
+              <div class="form-group">
+                <label for="degreename">Degree Name</label>
+                <textarea class="form-control" id="degreename" rows="5"></textarea>
+              </div>
+  
+              <div class="form-group">
+                <label for="">Subjects Studied in The Degree</label>
+  
+                <div class="form-group row">
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="d1" type="text" placeholder="1.">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="d4" type="text" placeholder="4.">
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="form-group row">
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="d2" type="text" placeholder="2.">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="d5" type="text" placeholder="5.">
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="form-group row">
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="d3" type="text" placeholder="3.">
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <input class="form-control" id="d6" type="text" placeholder="6.">
+                    </div>
+                  </div>
+                </div>
+  
+              </div>
+  
+              <div class="form-group">
+                <label for="professionalqualifications">Professional Qualifications</label>
+                <textarea class="form-control" id="professionalqualifications" rows="5" placeholder="Professional Qualifications"></textarea>
+              </div>
+  
+              <div class="form-group">
+                <label for="datetransfer">Date of Transfer</label>
+                <input type="text" class="form-control" id="datetransfer" placeholder="Date of Transfer">
+              </div>
+              
+              <div class="form-group">
+                <label for="placeoftransfer">Place of Transfer</label>
+                <textarea class="form-control" id="placeoftransfer" rows="5" placeholder="Place of Transfer"></textarea>
+              </div>
+  
+              <div class="form-group">
+                <label for="degreename">Other Informations</label>
+                <textarea class="form-control" id="degreename" rows="5" placeholder="Other Informations"></textarea>
+              </div>
+  
+              <div class="form-group">
+                <label for="datefilled">Date</label>
+                <input type="text" class="form-control" id="datefilled" placeholder="Date">
               </div>
 
             </div>

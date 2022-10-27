@@ -737,7 +737,7 @@ if __name__ == '__main__':
 
     host = "127.0.0.1"
     port = "5001"
-    url = "http://{0}:{1}".format(host, port)
-    threading.Timer(1.25, lambda: webbrowser.open(url)).start()
-    app.run(port=port, threaded=True, debug=False)
-    # app.run(host=host, port=port, threaded=True, debug=True)
+    # url = "http://{0}:{1}".format(host, port)
+    # threading.Timer(1.25, lambda: webbrowser.open(url)).start()
+    # app.run(port=port, threaded=True, debug=False)
+    app.run(host=host, port=port, threaded=True, debug=True)

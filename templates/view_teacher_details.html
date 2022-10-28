@@ -98,7 +98,7 @@
   
               <div class="form-group">
                 <label for="olyear">Ordinary Level Year</label>
-                <input type="text" class="form-control" id="olyear" placeholder="Ordinary Level Year">
+                <input type="text" class="form-control" id="olyear" value="{{ details[18] }}">
               </div>
   
               <div class="form-group">
@@ -107,25 +107,12 @@
                 <div class="form-group row">
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="ol1" type="text" placeholder="1.">
+                      <textarea class="form-control" id="ol1" rows="1">{{ details[19] }}</textarea>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="ol6" type="text" placeholder="6.">
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="form-group row">
-                  <div class="col">
-                    <div class="form-group">
-                      <input class="form-control" id="ol2" type="text" placeholder="2.">
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="form-group">
-                      <input class="form-control" id="ol7" type="text" placeholder="7.">
+                      <textarea class="form-control" id="ol6" rows="1">{{ details[20] }}</textarea>
                     </div>
                   </div>
                 </div>
@@ -133,25 +120,12 @@
                 <div class="form-group row">
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="ol3" type="text" placeholder="3.">
+                      <textarea class="form-control" id="ol2" rows="1">{{ details[21] }}</textarea>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="ol8" type="text" placeholder="8.">
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="form-group row">
-                  <div class="col">
-                    <div class="form-group">
-                      <input class="form-control" id="ol4" type="text" placeholder="4.">
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="form-group">
-                      <input class="form-control" id="ol9" type="text" placeholder="9.">
+                      <textarea class="form-control" id="ol7" rows="1">{{ details[22] }}</textarea>
                     </div>
                   </div>
                 </div>
@@ -159,12 +133,38 @@
                 <div class="form-group row">
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="ol5" type="text" placeholder="5.">
+                      <textarea class="form-control" id="ol3" rows="1">{{ details[23] }}</textarea>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="ol10" type="text" placeholder="10.">
+                      <textarea class="form-control" id="ol8" rows="1">{{ details[24] }}</textarea>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="form-group row">
+                  <div class="col">
+                    <div class="form-group">
+                      <textarea class="form-control" id="ol4" rows="1">{{ details[25] }}</textarea>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <textarea class="form-control" id="ol9" rows="1">{{ details[26] }}</textarea>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="form-group row">
+                  <div class="col">
+                    <div class="form-group">
+                      <textarea class="form-control" id="ol5" rows="1">{{ details[27] }}</textarea>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <textarea class="form-control" id="ol10" rows="1">{{ details[28] }}</textarea>
                     </div>
                   </div>
                 </div>
@@ -177,12 +177,12 @@
   
               <div class="form-group">
                 <label for="alstream">Advanced Level Subject Stream</label>
-                <input type="text" class="form-control" id="alstream">
+                <textarea class="form-control" id="alstream" rows="1">{{ details[29] }}</textarea>
               </div>
   
               <div class="form-group">
                 <label for="alyear">Advanced Level Year</label>
-                <input type="text" class="form-control" id="alyear">
+                <input type="text" class="form-control" id="alyear" value="{{ details[30] }}">
               </div>
   
               <div class="form-group">
@@ -191,12 +191,12 @@
                 <div class="form-group row">
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="al1" type="text" placeholder="1.">
+                      <textarea class="form-control" id="al1" rows="1">{{ details[31] }}</textarea>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="al3" type="text" placeholder="3.">
+                      <textarea class="form-control" id="al3" rows="1">{{ details[32] }}</textarea>
                     </div>
                   </div>
                 </div>
@@ -204,12 +204,12 @@
                 <div class="form-group row">
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="al2" type="text" placeholder="2.">
+                      <textarea class="form-control" id="al2" rows="1">{{ details[33] }}</textarea>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="al4" type="text" placeholder="4.">
+                      <textarea class="form-control" id="al4" rows="1">{{ details[34] }}</textarea>
                     </div>
                   </div>
                 </div>
@@ -219,14 +219,22 @@
               <div class="form-group">
                 <label for="isdegree">Is Degree Have?</label>
                 <select class="form-control" id="isdegree">
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
+                  <option value="Yes"
+                  {% if details[35] == 'Yes' %}
+                  selected
+                  {% endif %}
+                  >Yes</option>
+                  <option value="No"
+                  {% if details[35] == 'No' %}
+                  selected
+                  {% endif %}
+                  >No</option>
                 </select>
               </div>
   
               <div class="form-group">
                 <label for="degreename">Degree Name</label>
-                <textarea class="form-control" id="degreename" rows="5"></textarea>
+                <textarea class="form-control" id="degreename" rows="5">{{ details[36] }}</textarea>
               </div>
   
               <div class="form-group">
@@ -235,25 +243,12 @@
                 <div class="form-group row">
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="d1" type="text" placeholder="1.">
+                      <textarea class="form-control" id="d1" rows="1">{{ details[37] }}</textarea>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="d4" type="text" placeholder="4.">
-                    </div>
-                  </div>
-                </div>
-  
-                <div class="form-group row">
-                  <div class="col">
-                    <div class="form-group">
-                      <input class="form-control" id="d2" type="text" placeholder="2.">
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="form-group">
-                      <input class="form-control" id="d5" type="text" placeholder="5.">
+                      <textarea class="form-control" id="d4" rows="1">{{ details[38] }}</textarea>
                     </div>
                   </div>
                 </div>
@@ -261,12 +256,25 @@
                 <div class="form-group row">
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="d3" type="text" placeholder="3.">
+                      <textarea class="form-control" id="d2" rows="1">{{ details[39] }}</textarea>
                     </div>
                   </div>
                   <div class="col">
                     <div class="form-group">
-                      <input class="form-control" id="d6" type="text" placeholder="6.">
+                      <textarea class="form-control" id="d5" rows="1">{{ details[40] }}</textarea>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="form-group row">
+                  <div class="col">
+                    <div class="form-group">
+                      <textarea class="form-control" id="d3" rows="1">{{ details[41] }}</textarea>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                      <textarea class="form-control" id="d6" rows="1">{{ details[42] }}</textarea>
                     </div>
                   </div>
                 </div>
@@ -275,27 +283,37 @@
   
               <div class="form-group">
                 <label for="professionalqualifications">Professional Qualifications</label>
-                <textarea class="form-control" id="professionalqualifications" rows="5" placeholder="Professional Qualifications"></textarea>
+                <textarea class="form-control" id="professionalqualifications" rows="5">{{ details[43] }}</textarea>
               </div>
   
               <div class="form-group">
                 <label for="datetransfer">Date of Transfer</label>
-                <input type="text" class="form-control" id="datetransfer" placeholder="Date of Transfer">
+                <input type="text" class="form-control" id="datetransfer" value="{{ details[44] }}">
               </div>
               
               <div class="form-group">
                 <label for="placeoftransfer">Place of Transfer</label>
-                <textarea class="form-control" id="placeoftransfer" rows="5" placeholder="Place of Transfer"></textarea>
+                <textarea class="form-control" id="placeoftransfer" rows="5">{{ details[45] }}</textarea>
               </div>
   
               <div class="form-group">
-                <label for="degreename">Other Informations</label>
-                <textarea class="form-control" id="degreename" rows="5" placeholder="Other Informations"></textarea>
+                <label for="otherinformations">Other Information</label>
+                <textarea class="form-control" id="otherinformations" rows="5">{{ details[46] }}</textarea>
               </div>
   
               <div class="form-group">
                 <label for="datefilled">Date</label>
-                <input type="text" class="form-control" id="datefilled" placeholder="Date">
+                <input type="text" class="form-control" id="datefilled" value="{{ details[47] }}">
+              </div>
+
+              <div class="form-group">
+                <label for="insetedby">Inserted By</label>
+                <input type="text" class="form-control" id="insetedby" value="{{ details[48] }}" disabled>
+              </div>
+
+              <div class="form-group">
+                <label for="updatedby">Updated By</label>
+                <input type="text" class="form-control" id="updatedby" value="{{ details[49] }}" disabled>
               </div>
 
             </div>
@@ -361,6 +379,37 @@
     $("#salaryimplementdate").prop('disabled', type);
     $("#servicedschools").prop('disabled', type);
     $("#educationqualifications").prop('disabled', type);
+
+    $("#olyear").prop('disabled', type);
+    $("#ol1").prop('disabled', type);
+    $("#ol6").prop('disabled', type);
+    $("#ol2").prop('disabled', type);
+    $("#ol7").prop('disabled', type);
+    $("#ol3").prop('disabled', type);
+    $("#ol8").prop('disabled', type);
+    $("#ol4").prop('disabled', type);
+    $("#ol9").prop('disabled', type);
+    $("#ol5").prop('disabled', type);
+    $("#ol10").prop('disabled', type);
+    $("#alstream").prop('disabled', type);
+    $("#alyear").prop('disabled', type);
+    $("#al1").prop('disabled', type);
+    $("#al3").prop('disabled', type);
+    $("#al2").prop('disabled', type);
+    $("#al4").prop('disabled', type);
+    $("#isdegree").prop('disabled', type);
+    $("#degreename").prop('disabled', type);
+    $("#d1").prop('disabled', type);
+    $("#d4").prop('disabled', type);
+    $("#d2").prop('disabled', type);
+    $("#d5").prop('disabled', type);
+    $("#d3").prop('disabled', type);
+    $("#d6").prop('disabled', type);
+    $("#professionalqualifications").prop('disabled', type);
+    $("#datetransfer").prop('disabled', type);
+    $("#placeoftransfer").prop('disabled', type);
+    $("#otherinformations").prop('disabled', type);
+    $("#datefilled").prop('disabled', type);
   }
 
   function updateValues(idValue) {
@@ -394,6 +443,37 @@
             var servicedSchools = $('#servicedschools').val();
             var educationQualifications = $('#educationqualifications').val();
 
+            var olyear = $('#olyear').val();
+            var ol1 = $('#ol1').val();
+            var ol6 = $('#ol6').val();
+            var ol2 = $('#ol2').val();
+            var ol7 = $('#ol7').val();
+            var ol3 = $('#ol3').val();
+            var ol8 = $('#ol8').val();
+            var ol4 = $('#ol4').val();
+            var ol9 = $('#ol9').val();
+            var ol5 = $('#ol5').val();
+            var ol10 = $('#ol10').val();
+            var alstream = $('#alstream').val();
+            var alyear = $('#alyear').val();
+            var al1 = $('#al1').val();
+            var al3 = $('#al3').val();
+            var al2 = $('#al2').val();
+            var al4 = $('#al4').val();
+            var isdegree = $('#isdegree').val();
+            var degreename = $('#degreename').val();
+            var d1 = $('#d1').val();
+            var d4 = $('#d4').val();
+            var d2 = $('#d2').val();
+            var d5 = $('#d5').val();
+            var d3 = $('#d3').val();
+            var d6 = $('#d6').val();
+            var professionalqualifications = $('#professionalqualifications').val();
+            var datetransfer = $('#datetransfer').val();
+            var placeoftransfer = $('#placeoftransfer').val();
+            var otherinformations = $('#otherinformations').val();
+            var datefilled = $('#datefilled').val();
+
             var title = "Update Teacher Information (ගුරු තොරතුරු යාවත්කාලීන කරන්න)";
 
             if (id == "" || fullName == "" || fullNameInitials == "" || dob == "" || nic == "" || address == "" || distance == "" || educationQualifications == "") {
@@ -419,6 +499,37 @@
               form_data.append('salaryImplementDate', salaryImplementDate);
               form_data.append('servicedSchools', servicedSchools);
               form_data.append('educationQualifications', educationQualifications);
+
+              form_data.append('olYear', olyear);
+              form_data.append('ol1', ol1);
+              form_data.append('ol6', ol6);
+              form_data.append('ol2', ol2);
+              form_data.append('ol7', ol7);
+              form_data.append('ol3', ol3);
+              form_data.append('ol8', ol8);
+              form_data.append('ol4', ol4);
+              form_data.append('ol9', ol9);
+              form_data.append('ol5', ol5);
+              form_data.append('ol10', ol10);
+              form_data.append('alStream', alstream);
+              form_data.append('alYear', alyear);
+              form_data.append('al1', al1);
+              form_data.append('al3', al3);
+              form_data.append('al2', al2);
+              form_data.append('al4', al4);
+              form_data.append('isDegree', isdegree);
+              form_data.append('degreeName', degreename);
+              form_data.append('d1', d1);
+              form_data.append('d4', d4);
+              form_data.append('d2', d2);
+              form_data.append('d5', d5);
+              form_data.append('d3', d3);
+              form_data.append('d6', d6);
+              form_data.append('professionalQualifications', professionalqualifications);
+              form_data.append('dateTransfer', datetransfer);
+              form_data.append('placeOfTransfer', placeoftransfer);
+              form_data.append('otherInformations', otherinformations);
+              form_data.append('dateFilled', datefilled);
 
               $.ajax({
                 url: "/update_teacher",

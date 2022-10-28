@@ -110,28 +110,60 @@ def create_db():
 
     queries.append('''
              CREATE TABLE IF NOT EXISTS public.teachers
-             (
-                 full_name character varying COLLATE pg_catalog."default" NOT NULL,
-                 full_name_initials character varying COLLATE pg_catalog."default" NOT NULL,
-                 dob character varying(16) COLLATE pg_catalog."default" NOT NULL,
-                 nic character varying(16) COLLATE pg_catalog."default" NOT NULL,
-                 address character varying(255) COLLATE pg_catalog."default" NOT NULL,
-                 distance character varying(255) COLLATE pg_catalog."default" NOT NULL,
-                 tp_land character varying(16) COLLATE pg_catalog."default",
-                 tp_mobile character varying(16) COLLATE pg_catalog."default",
-                 email character varying COLLATE pg_catalog."default",
-                 married_person_name character varying COLLATE pg_catalog."default",
-                 married_person_job character varying COLLATE pg_catalog."default",
-                 original_appointment_date character varying(16) COLLATE pg_catalog."default",
-                 grade_class character varying COLLATE pg_catalog."default",
-                 salary_implement_date character varying COLLATE pg_catalog."default",
-                 previous_serviced_schools character varying COLLATE pg_catalog."default",
-                 education_qualifications character varying COLLATE pg_catalog."default",
-                 id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-                 status integer NOT NULL,
-                 CONSTRAINT teachers_pkey PRIMARY KEY (id)
-             )
-             TABLESPACE pg_default;
+            (
+                full_name character varying COLLATE pg_catalog."default" NOT NULL,
+                full_name_initials character varying COLLATE pg_catalog."default" NOT NULL,
+                dob character varying(16) COLLATE pg_catalog."default" NOT NULL,
+                nic character varying(16) COLLATE pg_catalog."default" NOT NULL,
+                address character varying(255) COLLATE pg_catalog."default" NOT NULL,
+                distance character varying(255) COLLATE pg_catalog."default" NOT NULL,
+                tp_land character varying(16) COLLATE pg_catalog."default",
+                tp_mobile character varying(16) COLLATE pg_catalog."default",
+                email character varying COLLATE pg_catalog."default",
+                married_person_name character varying COLLATE pg_catalog."default",
+                married_person_job character varying COLLATE pg_catalog."default",
+                original_appointment_date character varying(16) COLLATE pg_catalog."default",
+                grade_class character varying COLLATE pg_catalog."default",
+                salary_implement_date character varying COLLATE pg_catalog."default",
+                previous_serviced_schools character varying COLLATE pg_catalog."default",
+                education_qualifications character varying COLLATE pg_catalog."default",
+                id integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+                status integer NOT NULL,
+                ol_year character varying COLLATE pg_catalog."default",
+                ol1 character varying COLLATE pg_catalog."default",
+                ol6 character varying COLLATE pg_catalog."default",
+                ol2 character varying COLLATE pg_catalog."default",
+                ol7 character varying COLLATE pg_catalog."default",
+                ol3 character varying COLLATE pg_catalog."default",
+                ol8 character varying COLLATE pg_catalog."default",
+                ol4 character varying COLLATE pg_catalog."default",
+                ol9 character varying COLLATE pg_catalog."default",
+                ol5 character varying COLLATE pg_catalog."default",
+                ol10 character varying COLLATE pg_catalog."default",
+                al_stream character varying COLLATE pg_catalog."default",
+                al_year character varying COLLATE pg_catalog."default",
+                al1 character varying COLLATE pg_catalog."default",
+                al3 character varying COLLATE pg_catalog."default",
+                al2 character varying COLLATE pg_catalog."default",
+                al4 character varying COLLATE pg_catalog."default",
+                is_degree character varying COLLATE pg_catalog."default",
+                degree_name character varying COLLATE pg_catalog."default",
+                d1 character varying COLLATE pg_catalog."default",
+                d4 character varying COLLATE pg_catalog."default",
+                d2 character varying COLLATE pg_catalog."default",
+                d5 character varying COLLATE pg_catalog."default",
+                d3 character varying COLLATE pg_catalog."default",
+                d6 character varying COLLATE pg_catalog."default",
+                professional_qualifications character varying COLLATE pg_catalog."default",
+                date_transfer character varying COLLATE pg_catalog."default",
+                place_of_transfer character varying COLLATE pg_catalog."default",
+                other_informations character varying COLLATE pg_catalog."default",
+                date_filled character varying COLLATE pg_catalog."default",
+                inserted_by character varying COLLATE pg_catalog."default",
+                updated_by character varying COLLATE pg_catalog."default",
+                CONSTRAINT teachers_pkey PRIMARY KEY (id)
+            )
+            TABLESPACE pg_default;
          ''')
 
     queries.append('''
@@ -351,7 +383,7 @@ def system_login():
 
                 # Check user is exist
                 conn = connector()
-                query = "SELECT username, user_type FROM public.system_users WHERE username = %s AND password = %s"
+                query = "SELECT username, user_type, first_name, last_name FROM public.system_users WHERE username = %s AND password = %s"
                 values = (str(username), str(psw))
                 cur = conn.cursor()
                 cur.execute(query, values)
@@ -363,6 +395,8 @@ def system_login():
                 if len(details) > 0:
                     session['loggedId'] = str(details[0][0])
                     session['type'] = str(details[0][1])
+                    session['name'] = str(details[0][2]) + \
+                        " " + str(details[0][3])
                     return jsonify({'redirect': url_for('index')})
 
                 return jsonify({'error': "Sign in failed. Please try again! (පුරනය වීම අසාර්ථක විය. කරුණාකර නැවත උත්සාහ කරන්න!)"})
@@ -548,6 +582,38 @@ def add_new_teacher():
             educationQualifications = request.form.get(
                 'educationQualifications')
 
+            ol_year = request.form.get('olYear')
+            ol1 = request.form.get('ol1')
+            ol6 = request.form.get('ol6')
+            ol2 = request.form.get('ol2')
+            ol7 = request.form.get('ol7')
+            ol3 = request.form.get('ol3')
+            ol8 = request.form.get('ol8')
+            ol4 = request.form.get('ol4')
+            ol9 = request.form.get('ol9')
+            ol5 = request.form.get('ol5')
+            ol10 = request.form.get('ol10')
+            al_stream = request.form.get('alStream')
+            al_year = request.form.get('alYear')
+            al1 = request.form.get('al1')
+            al3 = request.form.get('al3')
+            al2 = request.form.get('al2')
+            al4 = request.form.get('al4')
+            is_degree = request.form.get('isDegree')
+            degree_name = request.form.get('degreeName')
+            d1 = request.form.get('d1')
+            d4 = request.form.get('d4')
+            d2 = request.form.get('d2')
+            d5 = request.form.get('d5')
+            d3 = request.form.get('d3')
+            d6 = request.form.get('d6')
+            professional_qualifications = request.form.get(
+                'professionalQualifications')
+            date_transfer = request.form.get('dateTransfer')
+            place_of_transfer = request.form.get('placeOfTransfer')
+            other_informations = request.form.get('otherInformations')
+            date_filled = request.form.get('dateFilled')
+
             if (len(fullName) == 0 or len(fullNameInitials) == 0 or len(dob) == 0 or len(nic) == 0 or
                     len(address) == 0 or len(distance) == 0 or len(educationQualifications) == 0):
 
@@ -562,9 +628,23 @@ def add_new_teacher():
                 query = ''' INSERT INTO public.teachers 
                     (full_name, full_name_initials, dob, nic, address, distance, tp_land, tp_mobile, email, married_person_name, 
                     married_person_job, original_appointment_date, grade_class, salary_implement_date, previous_serviced_schools, 
-                    education_qualifications, status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
-                values = (str(fullName), str(fullNameInitials), str(dob), str(nic), str(address), str(distance), str(landNumber), str(mobileNumber), str(email), str(marriedPersonName),
-                          str(marriedPersonJob), str(originalAppointment), str(gradeClass), str(salaryImplementDate), str(servicedSchools), str(educationQualifications), int(0))
+                    education_qualifications, status, ol_year, ol1, ol6, ol2, ol7, ol3, ol8, ol4, ol9, ol5, ol10, al_stream, 
+                    al_year, al1, al3, al2, al4, is_degree, degree_name, d1, d4, d2, d5, d3, d6, professional_qualifications, 
+                    date_transfer, place_of_transfer, other_informations, date_filled, inserted_by, updated_by) VALUES 
+                    (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+                    %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) '''
+                values = (str(fullName), str(fullNameInitials), str(dob), str(nic), str(address), str(distance), str(landNumber),
+                          str(mobileNumber), str(
+                              email), str(marriedPersonName),
+                          str(marriedPersonJob), str(originalAppointment), str(gradeClass), str(
+                              salaryImplementDate), str(servicedSchools), str(educationQualifications), int(0),
+                          str(ol_year), str(ol1), str(ol6), str(ol2), str(ol7), str(
+                              ol3), str(ol8), str(ol4), str(ol9), str(ol5),
+                          str(ol10), str(al_stream), str(al_year), str(al1), str(al3), str(
+                              al2), str(al4), str(is_degree), str(degree_name), str(d1),
+                          str(d4), str(d2), str(d5), str(d3), str(d6), str(
+                              professional_qualifications), str(date_transfer), str(place_of_transfer),
+                          str(other_informations), str(date_filled), str(session['name']), str(session['name']))
                 cur = conn.cursor()
                 cur.execute(query, values)
                 conn.commit()
@@ -612,6 +692,38 @@ def update_teacher():
             educationQualifications = request.form.get(
                 'educationQualifications')
 
+            ol_year = request.form.get('olYear')
+            ol1 = request.form.get('ol1')
+            ol6 = request.form.get('ol6')
+            ol2 = request.form.get('ol2')
+            ol7 = request.form.get('ol7')
+            ol3 = request.form.get('ol3')
+            ol8 = request.form.get('ol8')
+            ol4 = request.form.get('ol4')
+            ol9 = request.form.get('ol9')
+            ol5 = request.form.get('ol5')
+            ol10 = request.form.get('ol10')
+            al_stream = request.form.get('alStream')
+            al_year = request.form.get('alYear')
+            al1 = request.form.get('al1')
+            al3 = request.form.get('al3')
+            al2 = request.form.get('al2')
+            al4 = request.form.get('al4')
+            is_degree = request.form.get('isDegree')
+            degree_name = request.form.get('degreeName')
+            d1 = request.form.get('d1')
+            d4 = request.form.get('d4')
+            d2 = request.form.get('d2')
+            d5 = request.form.get('d5')
+            d3 = request.form.get('d3')
+            d6 = request.form.get('d6')
+            professional_qualifications = request.form.get(
+                'professionalQualifications')
+            date_transfer = request.form.get('dateTransfer')
+            place_of_transfer = request.form.get('placeOfTransfer')
+            other_informations = request.form.get('otherInformations')
+            date_filled = request.form.get('dateFilled')
+
             if (len(id) == 0 or len(fullName) == 0 or len(fullNameInitials) == 0 or len(dob) == 0 or len(nic) == 0 or
                     len(address) == 0 or len(distance) == 0 or len(educationQualifications) == 0):
 
@@ -624,10 +736,21 @@ def update_teacher():
                 row_count = 0
 
                 query = ''' UPDATE public.teachers SET full_name = %s, full_name_initials = %s, dob = %s, nic = %s, address = %s, distance = %s, tp_land = %s, tp_mobile = %s, email = %s, married_person_name = %s, 
-                    married_person_job = %s, original_appointment_date = %s, grade_class = %s, salary_implement_date = %s, previous_serviced_schools = %s, 
-                    education_qualifications = %s WHERE id = %s '''
+                    married_person_job = %s, original_appointment_date = %s, grade_class = %s, salary_implement_date = %s, previous_serviced_schools = %s, education_qualifications = %s,
+                    ol_year = %s, ol1 = %s, ol6 = %s, ol2 = %s, ol7 = %s, ol3 = %s, ol8 = %s, ol4 = %s, ol9 = %s, ol5 = %s,
+                    ol10 = %s, al_stream = %s, al_year = %s, al1 = %s, al3 = %s, al2 = %s, al4 = %s, is_degree = %s, degree_name = %s, d1 = %s,
+                    d4 = %s, d2 = %s, d5 = %s, d3 = %s, d6 = %s, professional_qualifications = %s, date_transfer = %s, place_of_transfer = %s, other_informations = %s, date_filled = %s
+                    , updated_by = %s WHERE id = %s '''
                 values = (str(fullName), str(fullNameInitials), str(dob), str(nic), str(address), str(distance), str(landNumber), str(mobileNumber), str(email), str(marriedPersonName),
-                          str(marriedPersonJob), str(originalAppointment), str(gradeClass), str(salaryImplementDate), str(servicedSchools), str(educationQualifications), int(id))
+                          str(marriedPersonJob), str(originalAppointment), str(gradeClass), str(
+                              salaryImplementDate), str(servicedSchools), str(educationQualifications),
+                          str(ol_year), str(ol1), str(ol6), str(ol2), str(ol7), str(
+                              ol3), str(ol8), str(ol4), str(ol9), str(ol5),
+                          str(ol10), str(al_stream), str(al_year), str(al1), str(al3), str(
+                              al2), str(al4), str(is_degree), str(degree_name), str(d1),
+                          str(d4), str(d2), str(d5), str(d3), str(d6), str(
+                              professional_qualifications), str(date_transfer), str(place_of_transfer),
+                          str(other_informations), str(date_filled), str(session['name']), int(id))
                 cur = conn.cursor()
                 cur.execute(query, values)
                 conn.commit()
@@ -737,7 +860,7 @@ if __name__ == '__main__':
 
     host = "127.0.0.1"
     port = "5001"
-    # url = "http://{0}:{1}".format(host, port)
-    # threading.Timer(1.25, lambda: webbrowser.open(url)).start()
-    # app.run(port=port, threaded=True, debug=False)
-    app.run(host=host, port=port, threaded=True, debug=True)
+    url = "http://{0}:{1}".format(host, port)
+    threading.Timer(1.25, lambda: webbrowser.open(url)).start()
+    app.run(port=port, threaded=True, debug=False)
+    # app.run(host=host, port=port, threaded=True, debug=True)

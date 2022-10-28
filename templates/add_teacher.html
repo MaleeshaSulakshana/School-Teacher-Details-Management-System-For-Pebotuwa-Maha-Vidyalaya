@@ -285,8 +285,8 @@
             </div>
 
             <div class="form-group">
-              <label for="degreename">Other Informations (වෙනත් තොරතුරු)</label>
-              <textarea class="form-control" id="degreename" rows="5" placeholder="Other Informations (වෙනත් තොරතුරු)"></textarea>
+              <label for="otherinformations">Other Information (වෙනත් තොරතුරු)</label>
+              <textarea class="form-control" id="otherinformations" rows="5" placeholder="Other Information (වෙනත් තොරතුරු)"></textarea>
             </div>
 
             <div class="form-group">
@@ -326,6 +326,37 @@
       var servicedSchools = $('#servicedschools').val();
       var educationQualifications = $('#educationqualifications').val();
 
+      var olyear = $('#olyear').val();
+      var ol1 = $('#ol1').val();
+      var ol6 = $('#ol6').val();
+      var ol2 = $('#ol2').val();
+      var ol7 = $('#ol7').val();
+      var ol3 = $('#ol3').val();
+      var ol8 = $('#ol8').val();
+      var ol4 = $('#ol4').val();
+      var ol9 = $('#ol9').val();
+      var ol5 = $('#ol5').val();
+      var ol10 = $('#ol10').val();
+      var alstream = $('#alstream').val();
+      var alyear = $('#alyear').val();
+      var al1 = $('#al1').val();
+      var al3 = $('#al3').val();
+      var al2 = $('#al2').val();
+      var al4 = $('#al4').val();
+      var isdegree = $('#isdegree').val();
+      var degreename = $('#degreename').val();
+      var d1 = $('#d1').val();
+      var d4 = $('#d4').val();
+      var d2 = $('#d2').val();
+      var d5 = $('#d5').val();
+      var d3 = $('#d3').val();
+      var d6 = $('#d6').val();
+      var professionalqualifications = $('#professionalqualifications').val();
+      var datetransfer = $('#datetransfer').val();
+      var placeoftransfer = $('#placeoftransfer').val();
+      var otherinformations = $('#otherinformations').val();
+      var datefilled = $('#datefilled').val();
+
       var title = "Add New Teacher Information (නව ගුරු තොරතුරු ඇතුලත් කරන්න)";
 
       if (fullName == "" || fullNameInitials == "" || dob == "" || nic == "" || address == "" || distance == "" || educationQualifications == "") {
@@ -350,6 +381,37 @@
         form_data.append('salaryImplementDate', salaryImplementDate);
         form_data.append('servicedSchools', servicedSchools);
         form_data.append('educationQualifications', educationQualifications);
+
+        form_data.append('olYear', olyear);
+        form_data.append('ol1', ol1);
+        form_data.append('ol6', ol6);
+        form_data.append('ol2', ol2);
+        form_data.append('ol7', ol7);
+        form_data.append('ol3', ol3);
+        form_data.append('ol8', ol8);
+        form_data.append('ol4', ol4);
+        form_data.append('ol9', ol9);
+        form_data.append('ol5', ol5);
+        form_data.append('ol10', ol10);
+        form_data.append('alStream', alstream);
+        form_data.append('alYear', alyear);
+        form_data.append('al1', al1);
+        form_data.append('al3', al3);
+        form_data.append('al2', al2);
+        form_data.append('al4', al4);
+        form_data.append('isDegree', isdegree);
+        form_data.append('degreeName', degreename);
+        form_data.append('d1', d1);
+        form_data.append('d4', d4);
+        form_data.append('d2', d2);
+        form_data.append('d5', d5);
+        form_data.append('d3', d3);
+        form_data.append('d6', d6);
+        form_data.append('professionalQualifications', professionalqualifications);
+        form_data.append('dateTransfer', datetransfer);
+        form_data.append('placeOfTransfer', placeoftransfer);
+        form_data.append('otherInformations', otherinformations);
+        form_data.append('dateFilled', datefilled);
 
         $.ajax({
           url: "/add_new_teacher",
